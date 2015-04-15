@@ -1,0 +1,23 @@
+-Introduzione
+--grafi
+--distanze
+--proprietà del grafo dei cammini minimi
+--APSP
+-Oracoli per distanze
+--limite teorico
+--oracolo in N^2
+--approssimazioni
+-Oracoli per cammini
+--cammini o grafo dei cammini?
+--riduzione per "pochi" cammini
+--algoritmo (in NM spazio)
+--caso particolare: grafi planari
+-Relazioni con oracoli per intersezione
+--oracoli per intersezioni
+--limite per oracoli "vuoto/nonvuoto"
+--oracolo cammini => oracolo intersezioni
+--oracolo intersezioni -> oracolo cammini
+-Conclusioni
+--sui fattori logaritmici
+--sulle intersezioni
+--congetture
