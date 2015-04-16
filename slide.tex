@@ -378,33 +378,93 @@ Relatore: & Prof. Roberto Grossi
 
     \Return {$\pi$(s,t)}
     \Else
-    \State {P = $\emptyset$}
+    \State {P := $\emptyset$}
     \For {u $\in$ neigh(t)}
     \Comment {Calcola $P_{st}$}
-    \If {$\delta$(s,u) = $\delta$(s,t)-1}
-    \State {P = P $\cup$ \{u\} }
+    \If {$\delta$(s,u) == $\delta$(s,t)-1}
+    \State {P := P $\cup$ \{u\} }
     \EndIf
     \EndFor
-    \State {C(s,t) = $\emptyset$}
+    \State {C(s,t) := $\emptyset$}
     \For {u $\in$ P}
     \Comment {Costruisci i cammini}
-    \State {C(s,t) = C(s,t) $\cup$ (s,...,u,t) $\mid$ (s,...,u) $\in$
+    \State {C(s,t) := C(s,t) $\cup$ (s,...,u,t) $\mid$ (s,...,u) $\in$
       C(s,u) }
     \EndFor
+    \Return {C(s,t)}
     \EndIf
   \end{algorithmic}
 \end{frame}
 
 \begin{frame}{Complessit\`a}
-  Si vede facilmente che lo spazio utilizzato \`e $O(N^2)$ pi\`u lo
-  spazio usato dall'oracolo $\pi$.
+  Si vede facilmente che lo spazio utilizzato \`e $O(N^2)$ bit pi\`u
+  lo spazio usato dall'oracolo $\pi$.
   \vfill
+
   Il tempo utilizzato per calcolare $C(s,t)$ \`e proporzionale alla
   sua grandezza, infatti la condizione $\neg A(s,t)$ ci garantisce il
   tempo utilizzato per calcolare $P_{st}$ viene ammortizzato
   nell'output dei cammini.
 \end{frame}
 
+\begin{frame}{Esempio}
+  \includegraphics[width=\textwidth]{millepieditestadiamante}
+\end{frame}
+
+\subsection{Oracolo per sottografo dei cammini minimi}
+
+\begin{frame}{Un primo approccio}
+  Vogliamo costruire un oracolo che dati $s,t\in V$ restituisca
+  $G_{st}$.
+  
+  Possiamo supporre di esserci salvati, al variare di $s,t\in V$ gli
+  insiemi $P_{st}$.
+  \vfill
+  
+  Metodo ricorsivo:
+  \[ G_{st} = \bra{\bigcup _{u \in P_{st}} G_{su}} \cup \pa{ P_{st}
+    \cup \set{ t} , \set{ (u,t) \mid u \in P_{st} } } \]
+  \pause
+
+  Non \`e un oracolo: $G_{su}$ e $G_{sv}$ ($u\neq v$) potrebbe essere
+  molto simili!
+\end{frame}
+
+\begin{frame}{Un approccio dinamico}
+  \begin{algorithmic}
+    \State {V$_{st}$ := \{s,t\}}
+    \State {E$_{st}$ := $\emptyset$}
+    \State {P := \{t\}}
+    \While {P $\neq \emptyset$}
+    \State {Q := $\emptyset$}
+    \Comment {I prossimi predecessori buoni da visitare}
+    \For {p $\in$ P}
+    \State {Q := Q $\cup$ P$_{sp}$ }
+    \State {V$_{st}$ := V$_{st}$ $\cup$ P$_{sp}$}
+    \Comment {Inserisci i predecessori nel grafo}
+    \For {u $\in$ P$_{sp}$}
+    \State {E$_{st}$ := E$_{st}$ $\cup$ (u,p)}
+    \EndFor
+    \EndFor
+    \State{P:=Q}
+    \EndWhile
+    \Return{G$_{st}$ := (V$_{st}$,E$_{st}$)}
+  \end{algorithmic}
+\end{frame}
+
+\begin{frame}{Analisi}
+  Si pu\`o vedere che questo \`e effetivamente un oracolo se gli
+  insiemi vengono implementati con tabelle hash.  \vfill
+
+  Lo spazio utilizzato \`e lo spazio utilizzato per salvare gli
+  insiemi $P_{st}$.
+
+  Possiamo vedere che:
+  \[ \sum _{s,t} \abs{P_{st}} = \sum _s \sum _t \abs{P_{st}} \le \sum
+  _s \sum _t \deg (t) = \sum _s 2M = 2NM \]
+  quindi, ricordando che un puntatore a nodo occupa $\log N$ bit,
+  abbiamo che lo spazio utilizzato \`e $O(NM\log N)$ bit.
+\end{frame}
 
 \end{document}
 
