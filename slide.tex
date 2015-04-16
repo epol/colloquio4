@@ -46,10 +46,12 @@
 \newtheorem{mylem}[counter1]{Lemma}
 \newtheorem{mypro}[counter1]{Proposizione}
 \newtheorem{mycor}[counter1]{Corollario}
+\newtheorem{mycon}[counter1]{Congettura}
 \newtheorem*{myteo*}{Teorema}
 \newtheorem*{mylem*}{Lemma}
 \newtheorem*{mypro*}{Proposizione}
 \newtheorem*{mycor*}{Corollario}
+\newtheorem*{mycon*}{Congettura}
 
 \theoremstyle{definition}
 \newtheorem{mydef}[counter1]{Definizione}
@@ -516,6 +518,99 @@ Relatore: & Prof. Roberto Grossi
   quindi, ricordando che un puntatore a nodo occupa $\log N$ bit,
   abbiamo che lo spazio utilizzato \`e $O(NM\log N)$ bit.
 \end{frame}
+
+
+\section{Intersezione di insiemi}
+
+\subsection{Oracoli per intersezioni di insiemi}
+
+\begin{frame}{Intersezione di insiemi}
+  Sia $X$ un insieme ambiente e supponiamo di avere
+  \[ S_1, ... , S_n \in \mathcal{P}(X) \]
+  
+  Siamo interessati a rispondere ad interrogazioni riguardo $S_i \cap
+  S_j$.
+  \vfill
+
+  Esistono due tipi principali di interrogazioni:
+  \begin{itemize}
+  \item $S_i \cap S_j$ \`e non vuoto?
+  \item enumerare gli elementi di $S_i \cap S_j$.
+  \end{itemize}
+  Evidentemente il secondo problema \`e pi\`u difficile del primo.
+\end{frame}
+
+\begin{frame}{Oracoli ``vuoto o non vuoto''}
+  \begin{mycon}
+    Consideriamo un oracolo che preprocessa $S_1,...,S_n$ e risponde
+    alla domanda ``$S_i$ interseca $S_j$?''. Sia $\abs{X} = \log _c n$
+    per $c$ sufficientemente grande. Allora tale oracolo deve occupare
+    $\tilde \Omega (n^2)$ memoria.
+  \end{mycon}
+  \vfill
+  
+  Nelle ipotesi della congettura scopriamo che, a meno di fattori
+  logaritmici, l'oracolo ``banale'' che salva tutte le possibili
+  risposte (e occupa $O(n^2)$ bit) \`e ottimo in spazio.
+\end{frame}
+
+\subsection{Relazione con gli oracoli per cammini minimi}
+
+\begin{frame}{Riduzione da intersezioni a cammini}
+  Costruiamo un grafo bipartito $G = (V,E)$ nel seguente modo:
+  \[ V = X \cup \set{ S_1, ... ,S_n} \;\; E = \set{ ( S_i, x) \mid x
+    \in S_i } \] \vfill
+  
+  Vediamo che, se $S_i \cap S_j \neq \emptyset$, si ha che i cammini
+  minimi tra $S_i$ e $S_j$ sono tutti e soli i:
+  \[ \set{ ( S_i, x, S_j) \mid x \in S_i \cap S_j }\]
+
+  \includegraphics[width=\textwidth]{setintersectiongraph}
+\end{frame}
+
+\begin{frame}{Osservazioni sulla riduzione}
+  Sia $m = \sum _i \abs{S_i}$, allora il grafo costruito ha $N = n +
+  \abs{X}$ nodi e $M = m$ archi.
+  
+  Per $\abs{X}$ piccolo ($\abs{X} = \log _c (n)$) abbiamo costruito un
+  oracolo per intersezioni in $O\pa{nm}$ bit che \`e lontano
+  dall'attuale lower bound di $\Omega\pa{n^2}$ bit.
+  \vfill \pause
+
+  Quindi costruire un oracolo per cammini minimi \`e pi\`u difficile
+  di costruire un oracolo per enumerare l'intersezione di insiemi.
+  \pause
+
+  Eventuali lower bound per l'intersezione passano ai cammini minimi.
+\end{frame}
+
+\begin{frame}{Riduzione da cammini a intersezione}
+  Sia $G = (V,E)$ un grafo e definiamo:
+  \[ L_s (k) = \set{ u \in V \mid \delta\pa{s,u} = k } \]
+  \pause
+  Possiamo quindi esprimere l'insieme $P_{st}$ come:
+  \[ P_{st} = L_s(\delta\pa{s,t} -1) \cap L_t(1) \]
+  \vfill \pause
+
+  Supponendo di avere un oracolo per distanze e un oracolo per le
+  intersezioni dei $L_s(k)$ possiamo costruire un oracolo per cammini
+  minimi.
+\end{frame}
+
+\begin{frame}{Osservazioni sulla riduzione}
+  Abbiamo ottenuto $n = dN$ insiemi (dove $d$ \`e il diametro del
+  grafo) la cui somma delle cardinalit\`a \`e:
+  \[ m = \sum _s \sum _k  L_s(k) = \sum _s N = N^2 \]
+  \vfill \pause
+
+  Quindi, supponendo di conoscere un buon oracolo per intersezioni,
+  potremmo riuscire a costruire un buon oracolo per grafi di
+  \textbf{diametro piccolo} (per esempio le reti sociali).
+
+  Questo comunque occuper\`a $\tilde \Omega (n^2) = \tilde \Omega
+  (d^2N^2)$ bit.
+\end{frame}
+
 
 \end{document}
 
