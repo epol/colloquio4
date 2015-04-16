@@ -108,7 +108,7 @@
 \begin{document}
 
 
-\title[Oracoli per cammini su grafi]{Cammini minimi su grafi:\\
+\title[Oracoli per cammini minimi su grafi]{Cammini minimi su grafi:\\
   oracoli per distanze e cammini}
 %\subtitle{}
 %\author{Enrico Polesel}
@@ -195,9 +195,15 @@ Relatore: & Prof. Roberto Grossi
 \begin{frame}{Ipotesi di lavoro}
   Noi useremo le seguenti ipotesi:
   \begin{itemize}
+  \item grafi connessi (ci si pu\`o facilmente ricondurre a questa
+    situazione);
   \item grafi non pesati (ogni arco ha lunghezza $1$);
   \item grafi non diretti.
   \end{itemize}
+  \vfill
+
+  Avendo supposto gli archi non diretti la nostra distanza diventa una
+  metrica sullo spazio dei nodi.
 \end{frame}
 
 \subsection{Cammini minimi fra due nodi}
@@ -439,7 +445,7 @@ Relatore: & Prof. Roberto Grossi
   Per ogni coppia $s,t\in V$ ci salviamo i nodi separanti ``buoni'',
   cio\`e (detto $S$ un insieme che separa $s$ e $t$ dato dal
   separation theorem):
-  \[ S_{s,t} = \set{ u \mid u \in S \wedge \delta\pa{s,u} +
+  \[ S_{st} = \set{ u \mid u \in S \wedge \delta\pa{s,u} +
     \delta\pa{u,t} = \delta\pa{s,t} } \]
   
   questi sono, al pi\`u, $O\pa{\sqrt{N}}$.
@@ -609,6 +615,79 @@ Relatore: & Prof. Roberto Grossi
 
   Questo comunque occuper\`a $\tilde \Omega (n^2) = \tilde \Omega
   (d^2N^2)$ bit.
+\end{frame}
+
+
+\section{Conclusioni e possibili sviluppi}
+
+\subsection{}
+
+\begin{frame}[plain]{\secname}
+  \tableofcontents[currentsection]
+\end{frame}
+
+
+\begin{frame}{Sui piccoli miglioramenti}
+  L'algoritmo principale che abbiamo presentato utilizza $O\pa{ NM
+    \log N}$ bit di memoria. Il nostro lavoro si \`e concentato sul
+  cercare di migliorare i fattori polinomiali legati alle dimensioni
+  del grafo.
+  \vfill
+  
+  Restano aperti due possibili miglioramenti:
+  \begin{itemize}
+  \item migliorare i fattori logaritmici (per esempio eliminando il~
+    $\log N$);
+  \item sfruttrare le operazioni binari su word per migliorare di
+    fattori~ $w$ (lunghezza di una word, per esempio $64$ bit).
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Sulle intersezioni}
+  Abbiamo mostrato un'interessante collegamento con il problema
+  dell'intersezione di insiemi.
+  
+  Questo problema si ritrova in altri contesti, per esempio nelle basi
+  di dati.
+  \vfill
+
+  Restano aperti due problemi:
+  \begin{itemize}
+  \item dimostrare un lower bound migliore per il problema (che
+    verrebbe riportato al problema dei cammini)
+  \item migliorare la riduzione dai cammini alle intersezioni
+    elimiando il fattore~ $d$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Generalizzazioni}
+  Abbiamo lavorato per semplicit\`a con ipotesi abbastanza stringenti
+  (grafi indiretti non pesati).  \vfill
+  \begin{itemize}
+  \item Generalizzare i nostri algoritmi a grafi diretti \`e facile,
+    bisogna stare attenti al fatto che $\delta\pa{u,v} \neq
+    \delta\pa{v,u}$. Inoltre l'oracolo per distanze potrebbe divetare
+    pi\`u grande (al massimo di un fattore $\log N$).
+  \item Generalizzare i nostri algoritmi a grafi pesati pu\`o essere
+    pi\`u difficile, definire l'insieme $P_{st}$ non \`e pi\`u cos\`i
+    semplice ma resta comunque possibile.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Congetture}
+  Presentiamo le seguenti congetture:
+  \begin{mycon}
+    Un oracolo per ritornare il grafo dei cammini minimi deve
+    utilizzare $\tilde \Omega \pa{ NM}$ memoria.
+  \end{mycon}
+  \begin{mycon}
+    Un oracolo per elencare tutti i cammini minimi deve
+    utilizzare $\tilde \Omega \pa{ NM}$ memoria.
+  \end{mycon}
+  \begin{mycon}
+    Un oracolo per elencare tutti gli elementi dell'intersezione di
+    insiemi deve utilizzare $\tilde \Omega \pa{ nm}$ memoria.
+  \end{mycon}
 \end{frame}
 
 
