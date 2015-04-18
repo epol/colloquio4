@@ -675,15 +675,16 @@ Relatore: & Prof. Roberto Grossi
 \end{frame}
 
 \begin{frame}{Problemi collegati}
-  Analogamente a quanto viene fatto con le distanze, ha senso studiare
-  algoritmi per ritornare un'approssimazione di tutti i cammini
-  minimi.
+  Varianti di questo problema sono (gi\`a studiati per le distanze):
   \vfill
-
-  Per esempio un oracolo che ritorna tutti i cammini tra $s$ e $t$ di
-  lunghezza minore di $r\delta\pa{s,t}$ (cio\`e una
-  $r$-approssimazione) potrebbe occupare meno spazio in memoria di un
-  oracolo esatto.
+  \begin{itemize}
+  \item ritornare un'approssimazione di tutti i cammini minimi (per
+    esempio tutti i cammini la cui lunghezza \`e una
+    $r$-approssimazione della distanza);
+  \item costruire algoritmi dinamici (cio\`e con inserimento e
+    rimozione di archi a tempo di esecuzione) per ritornare i cammini
+    minimi.
+  \end{itemize}
 \end{frame}
 
 \begin{frame}{Congetture}
