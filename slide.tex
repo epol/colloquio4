@@ -704,7 +704,7 @@ Relatore: & Prof. Roberto Grossi
 
 
 
-\section{Bonus}
+\section{Contenuti bonus}
 
 \begin{frame}[plain]
  \frametitle{Indice}
@@ -717,6 +717,8 @@ Relatore: & Prof. Roberto Grossi
   \item \hyperref[sec:oracolidist]{Oracoli per distanze esatti}
   \item \hyperref[sec:approx]{Oracoli per distanze approsimati}
   \item \hyperref[sec:APSP]{APSP}
+  \item \hyperref[sec:oracolocamminipiu]{Miglioramento dell'oracolo
+      per cammini}
   \end{itemize}
 \end{frame}
 
@@ -1065,6 +1067,54 @@ Relatore: & Prof. Roberto Grossi
   \end{myteo}
 \end{frame}
 
+\subsection*{Miglioramento dell'oracolo per cammini}
+\label{sec:oracolocamminipiu}
+
+\begin{frame}{Miglioramento}
+  \begin{block}{}
+    Se $w$ appartiene ad un cammino minimo in $G_{st}$ allora
+    costruiamo (ricorsivamente) tutti i cammini minimi in $G_{sw}$ e
+    $G_{wt}$. Concatenandoli otteniamo solo (ma non tutti) cammini
+    minimi in $G_{st}$.
+  \end{block}
+  \vfill
+
+  Ricorsivamente, per ogni cammino minimo in $G_{st}$ che
+  scopriamo, applichiamo questo ragionamento ai suoi nodi.  
+\end{frame}
+
+\begin{frame}{Struttura dei cammini}
+  Consideriamo il DAG $G_{st}$ dei cammini da $s$ a $t$ (che \`e
+  connesso come grafo indiretto), se togliamo i due estremi otteniamo
+  delle componenti connesse $H_1,...,H_k$.
+
+  \begin{mypro}
+    Per ogni componente $H_i$ ci basta conoscere un vertice $h_i \in H_i$
+    per conoscere tutta la componente
+  \end{mypro}
+  \vfill \pause
+
+  Invece di tutto l'insieme $P_{st}$ salviamo un elemento per ogni
+  componete connessa (che potrebbe contenere più elementi di
+  $P_{st}$.
+\end{frame}
+
+\begin{frame}{Caso pessimo}
+%    \begin{columns}
+%    \begin{column}{0.6\textwidth}
+      \begin{overprint}
+        \onslide<1> \includegraphics[width=\textwidth]{diamante}
+        \onslide<2-> \includegraphics[width=\textwidth]{diamantemultiplo}
+        \begin{center}
+          $\Theta \pa{N^3\log N}$ spazio!
+        \end{center}
+      \end{overprint}
+%    \end{column}
+%    \begin{column}{0.39\textwidth}
+ %    \end{column}
+%  \end{columns}
+
+\end{frame}
 
 
 
