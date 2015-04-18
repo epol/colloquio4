@@ -704,7 +704,7 @@ Relatore: & Prof. Roberto Grossi
 
 
 
-\section*{}
+\section{Bonus}
 
 \begin{frame}[plain]
  \frametitle{Indice}
@@ -713,12 +713,201 @@ Relatore: & Prof. Roberto Grossi
 
 \begin{frame}{Contenuti bonus}
   \begin{itemize}
-%  \item \hyperref[frame:prodottointeri]{Prodotto $\min +$ fra interi}
   \item \hyperref[sec:kcamm]{$k$-cammini pi\`u brevi}
   \item \hyperref[sec:oracolidist]{Oracoli per distanze esatti}
   \item \hyperref[sec:approx]{Oracoli per distanze approsimati}
-%  \item \hyperref[frame:wavelettree]{Wavelet tree}
+  \item \hyperref[sec:APSP]{APSP}
   \end{itemize}
+\end{frame}
+
+\subsection*{APSP}
+\label{sec:APSP}
+
+\begin{frame}{APSP}
+  Dato un grafo $G=(V,E)$ vogliamo calcolare la tabella delle
+  distanze.
+  
+  \begin{itemize}
+  \item Applicare, per ogni sorgente, Dijkstra (archi di peso non
+    negativo) o Bellman-Ford: $O(NM + N^2 \log N)$ o $O(N^2M)$ tempo.
+  \item Usare Floyd-Warshall: $O(N^3)$ tempo.
+  \item (1999) usando il prodotto veloce tra matrici: $\tilde O(kN^\omega)$
+    (con archi interi lunghi al pi\`u $k$)
+  \item (2014) usando il min-plus product: $\frac{n^3}{2^{\Omega(\log
+        n)^{1/2}}}$ (archi interi).
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Lower bound di APSP}
+  \begin{mycon}
+    Esiste una costante $c$ tale che, in un modello RAM con word da
+    $O(\log N)$ bit, ogni algoritmo per APSP impiega almeno
+    $n^{3-o(1)}$ tempo per costruire la tabella delle distanze per un
+    grafo con archi di peso in $\set{ 1,...,n^c}$.
+  \end{mycon}
+\end{frame}
+
+\begin{frame}{Matrice di adiacenza}
+  Numeriamo i vertici: $V = \set{ 0,1,2,..., N-1}$.
+  
+  \vfill
+  Definiamo la matrice $W$ dove
+  \begin{itemize}
+  \item $W_{i,i} = 0$
+  \item $W_{i,j} = w(i,j)$ se $(i,j) \in E$
+  \item $W_{i,j} = \infty$ se $(i,j) \not\in E$
+  \end{itemize}
+ 
+\end{frame}
+
+\begin{frame}{Calcolo della matrice delle distanze}
+  Matrice delle distanze: $d_{i,j} = \delta(i,j)$
+  \pause
+  \vfill
+  
+  $l^{(m)}_{i,j} = \min\set{ l^{(m-1)} _{i,j} , \min _{0\le k\le N-1}
+    \set{ l^{(m-1)} _{i,k} + w_{k,j}} }$
+  \pause
+  
+  Ogni cammino minimo ha al pi\`u $N-1$ archi $\Rightarrow$ $d_{i,j} =
+  l^{(N-1)} _{i,j}$.  \pause \vfill
+  
+  Possiamo riscrivere $l^{(m)}_{i,j} = \min \limits _{0\le k\le N-1}
+  \set{ l^{(m-1)} _{i,k} + w_{k,j}}$
+\end{frame}
+
+\begin{frame}{Lettura del prodotto fra matrici}
+  \begin{block}{}
+    \begin{align*}
+      l^{(m)}_{i,j} &=& & \min \limits _k & \Big\{ & l^{(m-1)}
+      _{i,k} & & +  & & w_{k,j} \Big\} \\
+      C_{i,j} &=& &\sum _k  & &  A_{i,k}  & & \cdot  & &B_{k,j} 
+    \end{align*}
+  \end{block}
+  \pause
+  
+  \[ L^{(m)} = L^{(m-1)} * W \]
+
+  \begin{block}{}
+    \[ D = W^{N-1} \]
+  \end{block}
+\end{frame}
+
+\begin{frame}{Complessit\`a in tempo}
+  \begin{overprint}
+    \onslide<1>
+    \begin{center}
+      \begin{tabular}{| c | c |}
+        \hline
+        Calcolo di un prodotto & Elevamento a potenza \\
+        \hline
+        $ A *B $ & $W ^{N-1}$ \\
+        $O\pa{N^3}$ & $O\pa{ N}$ \\
+        \hline
+        \multicolumn{2}{| c| }{$O\pa{N^4}$}\\
+        \hline
+      \end{tabular}
+    \end{center}
+    \onslide<2>
+    \begin{center}
+      \begin{tabular}{| c | c |}
+        \hline
+        Calcolo di un prodotto & Elevamento a potenza \\
+        \hline
+        $ A *B $ & \cellcolor{yellow} $W ^{2^{\ceil{\log\pa{N}}}}$ \\
+        $O\pa{N^3}$ & \cellcolor{yellow} $O\pa{ \log\pa{N}}$ \\
+        \hline
+        \multicolumn{2}{| c| }{$O\pa{N^3 \log\pa{N}}$}\\
+        \hline
+      \end{tabular}
+    \end{center}
+    \onslide<3->
+    \begin{center}
+      \begin{tabular}{| c | c |}
+        \hline
+        Calcolo di un prodotto & Elevamento a potenza \\
+        \hline
+        $ A *B $ & $W ^{2^{\ceil{\log\pa{N}}}}$ \\
+        \color{red} \bf ??? $O\pa{N^\omega}$ ??? & $O\pa{ \log\pa{N}}$ \\
+        \hline
+        \multicolumn{2}{| c| }{\color{red} ?? $O\pa{N^\omega \log\pa{N}}$ ??}\\
+        \hline
+      \end{tabular}
+    \end{center}
+  \end{overprint}
+  \vfill
+  \begin{overprint}
+    \onslide<3-> $O\pa{N^\omega}$ \`e la complessit\`a in tempo del
+    prodotto veloce fra matrici.
+
+    Il valore di $2\le\omega <3$ \`e un problema aperto.
+  \end{overprint}
+  \vfill
+  \begin{overprint}
+    \onslide<4-> Il prodotto veloce funziona solo su anelli.
+    
+    $\pa{\mathbb{R},\min, +}$ non \`e un anello!!
+  \end{overprint}
+  \vfill
+  \begin{overprint}
+    \onslide<5-> Per archi di peso intero positivo: $O\pa{ d N ^\omega
+      \log d \log N}$ {\color{white}\ref{frame:prodottointeri}}
+  \end{overprint}
+\end{frame}
+
+\begin{frame}{Prodotto $\min + $ fra interi}
+\label{frame:prodottointeri}
+  \begin{overprint}
+    \onslide<1>
+    \begin{equation*}
+      \overbrace{
+        \begin{pmatrix}
+          a_{11}  & \cdots & a_{1N} \\
+          \vdots & \ddots & \vdots \\
+          a_{N1} & \cdots & a_{NN} 
+        \end{pmatrix}} ^{A} *
+      \overbrace{
+        \begin{pmatrix}
+          b_{11}  & \cdots & b_{1N} \\
+          \vdots & \ddots & \vdots \\
+          b_{N1} & \cdots & b_{NN} 
+        \end{pmatrix}} ^{B} =
+      \overbrace{
+        \begin{pmatrix}
+          c_{11}  & \cdots & c_{1N} \\
+          \vdots & \ddots & \vdots \\
+          c_{N1} & \cdots & c_{NN} 
+        \end{pmatrix}} ^{C}
+    \end{equation*}
+    \onslide<2->
+    \begin{equation*}
+      \overbrace{
+        \begin{pmatrix}
+          x^{a_{11}}  & \cdots & x^{a_{1N}} \\
+          \vdots & \ddots & \vdots \\
+          x^{a_{N1}} & \cdots & x^{a_{NN}} 
+        \end{pmatrix}} ^{A'} \cdot
+      \overbrace{
+        \begin{pmatrix}
+          x^{b_{11}}  & \cdots & x^{b_{1N}} \\
+          \vdots & \ddots & \vdots \\
+          x^{b_{N1}} & \cdots & x^{b_{NN}} 
+        \end{pmatrix}} ^{B'} =
+      \overbrace{
+      \begin{pmatrix}
+        c'_{11}  & \cdots & c'_{1N} \\
+        \vdots & \ddots & \vdots \\
+        c'_{N1} & \cdots & c'_{NN} 
+      \end{pmatrix}}^{C'}
+    \end{equation*}
+  \end{overprint}
+  \begin{overprint}
+    \onslide<2-> \[ c'_{ij} = \sum _k x^{a_{ik} + b_{kj}} \]
+  \end{overprint}
+  \[ c_{ij} = \min _k \set{ a_{ik} + b_{kj} } \]
+  \begin{overprint}
+    \onslide<3-> \[ c_{ij} = \mathrm{first}\pa{c'_{ij}} \]
+  \end{overprint}
 \end{frame}
 
 \subsection*{$k$ cammini pi\`u brevi}
