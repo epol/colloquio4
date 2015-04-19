@@ -257,7 +257,7 @@ Relatore: & Prof. Roberto Grossi
       \includegraphics[width=\textwidth]{BFS}
     \end{column}
     \begin{column}{0.58\textwidth}
-      Fissata una sorgente $s$ possiamo effettare una visita in
+      Fissata una sorgente $s$ possiamo effettuare una visita in
       ampiezza otteniamo il DAG dei cammini minimi in $O\pa{M}$
       operazioni.
 
@@ -517,7 +517,7 @@ Relatore: & Prof. Roberto Grossi
 \end{frame}
 
 \begin{frame}{Analisi}
-  Si pu\`o vedere che questo \`e effetivamente un oracolo se gli
+  Si pu\`o vedere che questo \`e effettivamente un oracolo se gli
   insiemi vengono implementati con tabelle hash.  \vfill
 
   Lo spazio utilizzato \`e lo spazio utilizzato per salvare gli
@@ -556,7 +556,7 @@ Relatore: & Prof. Roberto Grossi
   
   Nelle ipotesi della congettura scopriamo che, a meno di fattori
   logaritmici, l'oracolo ``banale'' che salva tutte le possibili
-  risposte (e occupa $O(n^2)$ bit) \`e ottimo in spazio.
+  risposte (e occupa $O(n^2)$ bit) \`e ``ottimo'' in spazio.
 \end{frame}
 
 \subsection{Relazione con gli oracoli per cammini minimi}
@@ -628,7 +628,7 @@ Relatore: & Prof. Roberto Grossi
 
 \begin{frame}{Sui piccoli miglioramenti}
   L'algoritmo principale che abbiamo presentato utilizza $O\pa{ NM
-    \log N}$ bit di memoria. Il nostro lavoro si \`e concentato sul
+    \log N}$ bit di memoria. Il nostro lavoro si \`e concentrato sul
   cercare di migliorare i fattori polinomiali legati alle dimensioni
   del grafo.
   \vfill
@@ -637,7 +637,7 @@ Relatore: & Prof. Roberto Grossi
   \begin{itemize}
   \item migliorare i fattori logaritmici (per esempio eliminando il~
     $\log N$);
-  \item sfruttrare le operazioni binari su word per migliorare di
+  \item sfruttare le operazioni binari su word per migliorare di
     fattori~ $w$ (lunghezza di una word, per esempio $64$ bit).
   \end{itemize}
 \end{frame}
@@ -698,217 +698,6 @@ Relatore: & Prof. Roberto Grossi
     insiemi deve utilizzare $\tilde \Omega \pa{ nm}$ memoria.
   \end{mycon}
 \end{frame}
-
-
-\end{document}
-
-\section{Oracoli per cammini}
-
-\subsection{Algoritmi facili}
-
-\begin{frame}{Un oracolo}
-  Supponiamo di conoscere la tabella delle distanze.
-  \begin{mylem}
-    Dati $u,v \in V$ e $u'$ vicino di $u$ esiste un cammino minimo in
-    $P(u,v)$ che utilizza l'arco $(u,u')$ se e solo se $ \delta \pa{
-      u,v} = w\pa{ u,u' } + \delta \pa{ u',v} $
-  \end{mylem}
-  \pause
-  Per ogni $u,v\in V$ ci salviamo i vicini buoni di $u$ e procediamo
-  in modo ricorsivo.
-  \vfill \pause
-
-  Spazio utilizzato: $O\pa{NM}$.
-\end{frame}
-
-\begin{frame}{Un non oracolo}
-  Invece di precalcolarci i vicini buoni, li troviamo durante
-  l'elaborazione.
-  
-  Spazio utilizzato: un oracolo per distanze.
-  \vfill
-  \pause
-  \includegraphics[width=\textwidth]{millepiedi}
-  
-  \begin{center}
-    \textbf{Non \`e un oracolo!}
-  \end{center}
-\end{frame}
-
-\subsection{Grafi planari}
-
-\begin{frame}{Separation theorem}
-  \begin{myteo}[\textit{Separation theorem}]
-    Dato un grafo planare $G = (V,E)$ \`e possibile partizionare $V$
-    in tre insiemi $A,B,S$ tali che
-    \begin{itemize}
-    \item $A$ e $B$ hanno al pi\`u $2N/3$ vertici ciascuno
-    \item $S$ ha $O\pa{ \sqrt{N}}$ vertici
-    \item non esistono archi tra $A$ e $B$
-    \end{itemize}
-  \end{myteo}
-  \vfill
-  \pause
-  Sottografi di grafi planari sono planari, quindi possiamo applicare
-  ricorsivamente il teorema a $A\cup S$ e $B\cup S$.
-\end{frame}
-
-\begin{frame}{Un oracolo}
-  La struttura data dal \textit{separation theorem} ci permette di
-  procedere con una strategia di \textit{divide et impera}.
-  \vfill \pause
-
-  Per ogni coppia $u,v\in V$ ci salviamo i nodi separanti ``buoni''
-  che sono, al pi\`u, $O\pa{\sqrt{N}}$.
-  \vfill \pause
-
-  \begin{block}{Spazio utilizzato}
-    \[ O \pa{N^{2.5}} \]
-  \end{block}
-\end{frame}
-
-\subsection{Miglioramenti dell'oracolo facile}
-
-\begin{frame}{Miglioramento}
-  \begin{block}{}
-    Se $w$ appartiene ad un cammino minimo in $P(u,v)$ allora
-    cerchiamo tutti i cammini minimi in $P(u,w)$ e
-    $P(w,v)$. Concatenandoli otteniamo cammini minimi in $P\pa{u,v}$.
-  \end{block}
-  \vfill
-
-  Ricorsivamente, per ogni cammino minimo in $P\pa{u,v}$ che
-  scopriamo, applichiamo questo ragionamento ai suoi nodi.  
-\end{frame}
-
-\begin{frame}{Struttura dei cammini}
-  Supponiamo $G$ indiretto e consideriamo il DAG $H$ dei cammini da
-  $u$ a $v$ (che \`e connesso come grafo indiretto), se togliamo i due
-  estremi otteniamo delle componenti connesse $H_1,...,H_k$.
-
-  \begin{mypro}
-    Per ogni componente $H_i$ ci basta conoscere un vertice $h_i \in H_i$
-    per conoscere tutta la componente
-  \end{mypro}
-  \vfill \pause
-
-  Invece di salvare tutti i vicini buoni salviamo un vicino buono per
-  ogni componete connessa (che potrebbe contenere più di un vicino
-  buono)
-\end{frame}
-
-\begin{frame}{Caso pessimo}
-%    \begin{columns}
-%    \begin{column}{0.6\textwidth}
-      \begin{overprint}
-        \onslide<1> \includegraphics[width=\textwidth]{diamante}
-        \onslide<2-> \includegraphics[width=\textwidth]{diamantemultiplo}
-        \begin{center}
-          $\Theta \pa{N^3}$ spazio!
-        \end{center}
-      \end{overprint}
-%    \end{column}
-%    \begin{column}{0.39\textwidth}
- %    \end{column}
-%  \end{columns}
-
-\end{frame}
-
-\subsection{Costruzione di un caso difficile}
-
-\begin{frame}{Grafo bipartito}
-  \includegraphics[width=\textwidth]{bipartito}
-  \pause
-  \begin{center}  
-  Se $\delta\pa{a_i, a_j}=2$ allora $\mathrm{minimi}(a_i,a_j)
-  \cong \mathrm{neigh}(a_i) \cap \mathrm{neigh}(a_j)$
-  \end{center}
-\end{frame}
-
-\begin{frame}{Conclusioni}
-  \begin{itemize}
-  \item<1-> Abbiamo visto come costruire un oracolo che occupa $O\pa{NM}$
-    memoria;
-  \item<1-> migliorandolo siamo riusciti a trovare una struttura dei
-    cammini minimi tra due vertici;
-  \item<2-> \`e possibile fare di meglio? Studiare il caso difficile
-    potrebbe aiutarci a capirlo.
-  \end{itemize}
-\end{frame}
-
-
-\section*{}
-
-\begin{frame}[plain]
- \frametitle{Indice}
- \tableofcontents
-\end{frame}
-
-\begin{frame}{Contenuti bonus}
-  \begin{itemize}
-  \item \hyperref[frame:prodottointeri]{Prodotto $\min +$ fra interi}
-  \item \hyperref[frame:wavelettree]{Wavelet tree}
-  \item \hyperref[sec:kcamm]{$k$-cammini minimi}
-  \item \hyperref[sec:oracolidist]{Oracoli per distanze esatti}
-  \item \hyperref[sec:approx]{Oracoli per distanze approsimati}
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Prodotto $\min + $ fra interi}
-\label{frame:prodottointeri}
-  \begin{overprint}
-    \onslide<1>
-    \begin{equation*}
-      \overbrace{
-        \begin{pmatrix}
-          a_{11}  & \cdots & a_{1N} \\
-          \vdots & \ddots & \vdots \\
-          a_{N1} & \cdots & a_{NN} 
-        \end{pmatrix}} ^{A} *
-      \overbrace{
-        \begin{pmatrix}
-          b_{11}  & \cdots & b_{1N} \\
-          \vdots & \ddots & \vdots \\
-          b_{N1} & \cdots & b_{NN} 
-        \end{pmatrix}} ^{B} =
-      \overbrace{
-        \begin{pmatrix}
-          c_{11}  & \cdots & c_{1N} \\
-          \vdots & \ddots & \vdots \\
-          c_{N1} & \cdots & c_{NN} 
-        \end{pmatrix}} ^{C}
-    \end{equation*}
-    \onslide<2->
-    \begin{equation*}
-      \overbrace{
-        \begin{pmatrix}
-          x^{a_{11}}  & \cdots & x^{a_{1N}} \\
-          \vdots & \ddots & \vdots \\
-          x^{a_{N1}} & \cdots & x^{a_{NN}} 
-        \end{pmatrix}} ^{A'} \cdot
-      \overbrace{
-        \begin{pmatrix}
-          x^{b_{11}}  & \cdots & x^{b_{1N}} \\
-          \vdots & \ddots & \vdots \\
-          x^{b_{N1}} & \cdots & x^{b_{NN}} 
-        \end{pmatrix}} ^{B'} =
-      \overbrace{
-      \begin{pmatrix}
-        c'_{11}  & \cdots & c'_{1N} \\
-        \vdots & \ddots & \vdots \\
-        c'_{N1} & \cdots & c'_{NN} 
-      \end{pmatrix}}^{C'}
-    \end{equation*}
-  \end{overprint}
-  \begin{overprint}
-    \onslide<2-> \[ c'_{ij} = \sum _k x^{a_{ik} + b_{kj}} \]
-  \end{overprint}
-  \[ c_{ij} = \min _k \set{ a_{ik} + b_{kj} } \]
-  \begin{overprint}
-    \onslide<3-> \[ c_{ij} = \mathrm{first}\pa{c'_{ij}} \]
-  \end{overprint}
-\end{frame}
-
 
 
 \end{document}
