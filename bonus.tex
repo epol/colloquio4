@@ -1,0 +1,547 @@
+\documentclass{beamer}
+%\usetheme{PaloAlto}
+%\usetheme{Berlin}
+\usetheme{Ilmenau}
+\usecolortheme{seahorse}
+
+%\usepackage[utf8]{inputenc}
+%\usepackage{default}
+%\usepackage[italian]{babel}
+
+%\usepackage{titleref}
+%\usepackage{zref-titleref}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{xfrac}
+\usepackage[all]{xy}
+\usepackage{mathtools}
+\usepackage{graphicx}
+%\usepackage{fullpage}
+\usepackage{hyperref}
+\usepackage[utf8x]{inputenc}
+\usepackage[italian]{babel}
+\usepackage{mathtools}
+\usepackage{colortbl}
+\usepackage{multirow}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+
+%\usepackage{pdftricks}
+%\begin{psinputs}
+%   \usepackage[pdf]{pstricks}
+ %  \usepackage{multido}
+%\end{psinputs}
+
+\usepackage{ulem}
+
+\setlength{\parindent}{0in}
+
+\newcounter{counter1}
+
+\theoremstyle{plain}
+\newtheorem{myteo}[counter1]{Teorema}
+\newtheorem{mylem}[counter1]{Lemma}
+\newtheorem{mypro}[counter1]{Proposizione}
+\newtheorem{mycor}[counter1]{Corollario}
+\newtheorem{mycon}[counter1]{Congettura}
+\newtheorem*{myteo*}{Teorema}
+\newtheorem*{mylem*}{Lemma}
+\newtheorem*{mypro*}{Proposizione}
+\newtheorem*{mycor*}{Corollario}
+\newtheorem*{mycon*}{Congettura}
+
+\theoremstyle{definition}
+\newtheorem{mydef}[counter1]{Definizione}
+\newtheorem{myes}[counter1]{Esempio}
+\newtheorem{myex}[counter1]{Esercizio}
+\newtheorem*{mydef*}{Definizione}
+\newtheorem*{myes*}{Esempio}
+\newtheorem*{myex*}{Esercizio}
+
+\theoremstyle{remark}
+\newtheorem{mynot}[counter1]{Nota}
+\newtheorem{myoss}[counter1]{Osservazione}
+\newtheorem*{mynot*}{Nota}
+\newtheorem*{myoss*}{Osservazione}
+
+\newcommand{\obar}[1]{\overline{#1}}
+\newcommand{\ubar}[1]{\underline{#1}}
+
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\pa}[1]{\left(#1\right)}
+\newcommand{\ang}[1]{\left<#1\right>}
+\newcommand{\bra}[1]{\left[#1\right]}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\ceil}[1]{\left\lceil#1\right\rceil}
+\newcommand{\floor}[1]{\left\lfloor#1\right\rfloor}
+
+\newcommand{\pfrac}[2]{\pa{\frac{#1}{#2}}}
+\newcommand{\bfrac}[2]{\bra{\frac{#1}{#2}}}
+\newcommand{\psfrac}[2]{\pa{\sfrac{#1}{#2}}}
+\newcommand{\bsfrac}[2]{\bra{\sfrac{#1}{#2}}}
+
+\newcommand{\der}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pder}[2]{\pfrac{\partial #1}{\partial #2}}
+\newcommand{\sder}[2]{\sfrac{\partial #1}{\partial #2}}
+\newcommand{\psder}[2]{\psfrac{\partial #1}{\partial #2}}
+
+\newcommand{\intl}{\int \limits}
+
+\DeclareMathOperator{\de}{d}
+\DeclareMathOperator{\id}{Id}
+\DeclareMathOperator{\len}{len}
+
+\DeclareMathOperator{\gl}{GL}
+\DeclareMathOperator{\aff}{Aff}
+\DeclareMathOperator{\isom}{Isom}
+
+\DeclareMathOperator{\im}{Im}
+
+\DeclareMathOperator{\neigh}{neigh}
+
+
+
+\begin{document}
+
+
+\title[Oracoli per cammini minimi su grafi - bonus]{Cammini minimi su grafi:\\
+  oracoli per distanze e cammini}
+%\subtitle{}
+%\author{Enrico Polesel}
+%\institute[Scuola Normale Superiore]{Scuola Normale Superiore}
+\date{27 aprile 2015}
+
+\author[Enrico Polesel]{\begin{tabular}{r@{ }l}
+Autore: &  Enrico Polesel \\ 
+Relatore: & Prof. Roberto Grossi
+\end{tabular}
+}
+
+
+
+%\begin{frame}[plain]
+%  \titlepage
+%\end{frame}
+
+%\begin{frame}[plain]
+% \frametitle{Indice}
+% \tableofcontents
+%\end{frame}
+
+
+%\AtBeginSection[]
+%{
+%  \begin{frame}{\secname}
+%    \tableofcontents[currentsection]
+%  \end{frame}
+%}
+
+
+\AtBeginSubsection[]
+{
+  \begin{frame}[plain]{\secname $\rightarrow$ \subsecname}
+    \tableofcontents[currentsubsection]
+  \end{frame}
+}
+
+\section{Contenuti bonus}
+
+\subsection{APSP}
+\label{sec:APSP}
+
+\begin{frame}{APSP}
+  Dato un grafo $G=(V,E)$ vogliamo calcolare la tabella delle
+  distanze.
+  
+  \begin{itemize}
+  \item Applicare, per ogni sorgente, Dijkstra (archi di peso non
+    negativo) o Bellman-Ford: $O(NM + N^2 \log N)$ o $O(N^2M)$ tempo.
+  \item Usare Floyd-Warshall: $O(N^3)$ tempo.
+  \item (1999) usando il prodotto veloce tra matrici: $\tilde O(kN^\omega)$
+    (con archi interi lunghi al pi\`u $k$)
+  \item (2014) usando il min-plus product: $\frac{n^3}{2^{\Omega(\log
+        n)^{1/2}}}$ (archi interi).
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Lower bound di APSP}
+  \begin{mycon}
+    Esiste una costante $c$ tale che, in un modello RAM con word da
+    $O(\log N)$ bit, ogni algoritmo per APSP impiega almeno
+    $n^{3-o(1)}$ tempo per costruire la tabella delle distanze per un
+    grafo con archi di peso in $\set{ 1,...,n^c}$.
+  \end{mycon}
+\end{frame}
+
+\begin{frame}{Matrice di adiacenza}
+  Numeriamo i vertici: $V = \set{ 0,1,2,..., N-1}$.
+  
+  \vfill
+  Definiamo la matrice $W$ dove
+  \begin{itemize}
+  \item $W_{i,i} = 0$
+  \item $W_{i,j} = w(i,j)$ se $(i,j) \in E$
+  \item $W_{i,j} = \infty$ se $(i,j) \not\in E$
+  \end{itemize}
+ 
+\end{frame}
+
+\begin{frame}{Calcolo della matrice delle distanze}
+  Matrice delle distanze: $d_{i,j} = \delta(i,j)$
+  \pause
+  \vfill
+  
+  $l^{(m)}_{i,j} = \min\set{ l^{(m-1)} _{i,j} , \min _{0\le k\le N-1}
+    \set{ l^{(m-1)} _{i,k} + w_{k,j}} }$
+  \pause
+  
+  Ogni cammino minimo ha al pi\`u $N-1$ archi $\Rightarrow$ $d_{i,j} =
+  l^{(N-1)} _{i,j}$.  \pause \vfill
+  
+  Possiamo riscrivere $l^{(m)}_{i,j} = \min \limits _{0\le k\le N-1}
+  \set{ l^{(m-1)} _{i,k} + w_{k,j}}$
+\end{frame}
+
+\begin{frame}{Lettura del prodotto fra matrici}
+  \begin{block}{}
+    \begin{align*}
+      l^{(m)}_{i,j} &=& & \min \limits _k & \Big\{ & l^{(m-1)}
+      _{i,k} & & +  & & w_{k,j} \Big\} \\
+      C_{i,j} &=& &\sum _k  & &  A_{i,k}  & & \cdot  & &B_{k,j} 
+    \end{align*}
+  \end{block}
+  \pause
+  
+  \[ L^{(m)} = L^{(m-1)} * W \]
+
+  \begin{block}{}
+    \[ D = W^{N-1} \]
+  \end{block}
+\end{frame}
+
+\begin{frame}{Complessit\`a in tempo}
+  \begin{overprint}
+    \onslide<1>
+    \begin{center}
+      \begin{tabular}{| c | c |}
+        \hline
+        Calcolo di un prodotto & Elevamento a potenza \\
+        \hline
+        $ A *B $ & $W ^{N-1}$ \\
+        $O\pa{N^3}$ & $O\pa{ N}$ \\
+        \hline
+        \multicolumn{2}{| c| }{$O\pa{N^4}$}\\
+        \hline
+      \end{tabular}
+    \end{center}
+    \onslide<2>
+    \begin{center}
+      \begin{tabular}{| c | c |}
+        \hline
+        Calcolo di un prodotto & Elevamento a potenza \\
+        \hline
+        $ A *B $ & \cellcolor{yellow} $W ^{2^{\ceil{\log\pa{N}}}}$ \\
+        $O\pa{N^3}$ & \cellcolor{yellow} $O\pa{ \log\pa{N}}$ \\
+        \hline
+        \multicolumn{2}{| c| }{$O\pa{N^3 \log\pa{N}}$}\\
+        \hline
+      \end{tabular}
+    \end{center}
+    \onslide<3->
+    \begin{center}
+      \begin{tabular}{| c | c |}
+        \hline
+        Calcolo di un prodotto & Elevamento a potenza \\
+        \hline
+        $ A *B $ & $W ^{2^{\ceil{\log\pa{N}}}}$ \\
+        \color{red} \bf ??? $O\pa{N^\omega}$ ??? & $O\pa{ \log\pa{N}}$ \\
+        \hline
+        \multicolumn{2}{| c| }{\color{red} ?? $O\pa{N^\omega \log\pa{N}}$ ??}\\
+        \hline
+      \end{tabular}
+    \end{center}
+  \end{overprint}
+  \vfill
+  \begin{overprint}
+    \onslide<3-> $O\pa{N^\omega}$ \`e la complessit\`a in tempo del
+    prodotto veloce fra matrici.
+
+    Il valore di $2\le\omega <3$ \`e un problema aperto.
+  \end{overprint}
+  \vfill
+  \begin{overprint}
+    \onslide<4-> Il prodotto veloce funziona solo su anelli.
+    
+    $\pa{\mathbb{R},\min, +}$ non \`e un anello!!
+  \end{overprint}
+  \vfill
+  \begin{overprint}
+    \onslide<5-> Per archi di peso intero positivo: $O\pa{ d N ^\omega
+      \log d \log N}$ {\color{white}\ref{frame:prodottointeri}}
+  \end{overprint}
+\end{frame}
+
+\begin{frame}{Prodotto $\min + $ fra interi}
+\label{frame:prodottointeri}
+  \begin{overprint}
+    \onslide<1>
+    \begin{equation*}
+      \overbrace{
+        \begin{pmatrix}
+          a_{11}  & \cdots & a_{1N} \\
+          \vdots & \ddots & \vdots \\
+          a_{N1} & \cdots & a_{NN} 
+        \end{pmatrix}} ^{A} *
+      \overbrace{
+        \begin{pmatrix}
+          b_{11}  & \cdots & b_{1N} \\
+          \vdots & \ddots & \vdots \\
+          b_{N1} & \cdots & b_{NN} 
+        \end{pmatrix}} ^{B} =
+      \overbrace{
+        \begin{pmatrix}
+          c_{11}  & \cdots & c_{1N} \\
+          \vdots & \ddots & \vdots \\
+          c_{N1} & \cdots & c_{NN} 
+        \end{pmatrix}} ^{C}
+    \end{equation*}
+    \onslide<2->
+    \begin{equation*}
+      \overbrace{
+        \begin{pmatrix}
+          x^{a_{11}}  & \cdots & x^{a_{1N}} \\
+          \vdots & \ddots & \vdots \\
+          x^{a_{N1}} & \cdots & x^{a_{NN}} 
+        \end{pmatrix}} ^{A'} \cdot
+      \overbrace{
+        \begin{pmatrix}
+          x^{b_{11}}  & \cdots & x^{b_{1N}} \\
+          \vdots & \ddots & \vdots \\
+          x^{b_{N1}} & \cdots & x^{b_{NN}} 
+        \end{pmatrix}} ^{B'} =
+      \overbrace{
+      \begin{pmatrix}
+        c'_{11}  & \cdots & c'_{1N} \\
+        \vdots & \ddots & \vdots \\
+        c'_{N1} & \cdots & c'_{NN} 
+      \end{pmatrix}}^{C'}
+    \end{equation*}
+  \end{overprint}
+  \begin{overprint}
+    \onslide<2-> \[ c'_{ij} = \sum _k x^{a_{ik} + b_{kj}} \]
+  \end{overprint}
+  \[ c_{ij} = \min _k \set{ a_{ik} + b_{kj} } \]
+  \begin{overprint}
+    \onslide<3-> \[ c_{ij} = \mathrm{first}\pa{c'_{ij}} \]
+  \end{overprint}
+\end{frame}
+
+\subsection{$k$ cammini pi\`u brevi}
+\label{sec:kcamm}
+
+\begin{frame}
+  \begin{block}{Problema}
+    Dati $u,v \in V$ trovare i $k$ cammini pi\`u brevi in $P(u,v)$.
+  \end{block}
+  \vfill
+  
+  \begin{itemize}
+  \item Alcuni algoritmi venono forniti in \textit{Eppstein 1994}
+  \item In \textit{Aljazzar-Leue 2011}, senza peggiorare le
+    prestazioni al caso pessimo, si riesce a risolvere il problema
+    senza esplorare tutto il grafo
+  \end{itemize}
+  
+\end{frame}
+
+\subsection{Oracoli per distanze esatti}
+\label{sec:oracolidist}
+
+\begin{frame}{Albero etichettato}
+  Sia $T$ un albero di ricoprimento qualsiasi di $G$ con radice in
+  $r$. Denotiamo con $f(u)$ il padre di $u$.
+  \vfill
+  \[ \delta\pa{ s,u} = \delta\pa{ s,r} + \sum _{v\in \pi (u)} \bra{
+    \delta\pa{ s,v} - \delta\pa{ s,f(v) } } \]
+  
+  Per la triangolare si ha $\abs{\delta\pa{ s,v} - \delta\pa{ s,f(v)}
+  } \le \abs{\delta\pa{v,f(v)}} \le 1$ \vfill
+  
+  \pause
+  \[ l_s(v) = \delta\pa{s,v} - \delta\pa{ s, f(v) } \in \set{
+    -1,0,1} \]
+\end{frame}
+
+\begin{frame}{Somme prefisse}
+  \begin{columns}
+    \begin{column}{0.6\textwidth}
+      \includegraphics[width=\textwidth]{labeltree}
+    \end{column}
+    \begin{column}{0.4\textwidth}
+      Associamo ad ogni etichettatura $l_s$ una sequenza $L_s$.
+
+      Per ogni nodo $u\in V$ nella stringa compare $l(u)$ (triangolino
+      verde) e $-l(u)$ (quadratino rosso).  \vfill \pause
+      
+      $\sum _{v\in \pi(u)} \bra{ \delta\pa{ s,v} - \delta\pa{ s,f(v) } }$
+      \`e la somma prefissa fino a $r(u)$.
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Complessità in spazio}
+  Dobbiamo salvare:
+  \begin{itemize}
+  \item albero: $O\pa{N}$ bit
+  \item distanze $\delta\pa{s,r}$ per ogni $s\in V$: $O\pa{ N \log N}$
+    bit totali
+  \item vettore $r$: $O\pa{N \log\pa{N}}$ bit 
+  \item al variare di $s\in V$ una struttura dati associata a $L_s$:
+    $2\log\pa{3} N^2 + o(N^2)$ bit totali {\color{white}
+      \ref{frame:wavelettree}}
+  \end{itemize}
+  Asintoticamente lo spazio utilizzato è dato dalla struttura per
+  $L_s$.
+
+  \textbf{Totale:} ${2}\log\pa{3} N^2 + o(N^2)$ bit \vfill
+  \pause
+
+  Si pu\`o migliorare a 
+  \begin{block}{Bit utilizzati}
+    \[ \frac{1}{2}\log\pa{3} N^2 + o\pa{N^2} = 1.585 \frac{N^2}{2} +
+    o\pa{N^2} \]
+  \end{block}
+\end{frame}
+
+\begin{frame}{Wavelet Tree}
+  \label{frame:wavelettree}
+  \begin{myteo}
+    Sia $S \in\Sigma ^n$. Il Wavelet Tree costruito su $S$ occupa
+    $nH_0(S) + o(n)$ bit e risponde in $\log \abs{\Sigma}$ tempo a:
+    \begin{itemize}
+    \item Ottieni il carattere $S[i]$
+    \item $Rank_c (S,i)$: il numero di occorenze del carattere~ $c\in
+      \Sigma$ nella stringa $S[0:i]$
+    \item $Select _c (S,i)$: la posizione dell'$i$-esima occorrenza
+      di~ $c\in \Sigma$ in~ $S$
+    \end{itemize}
+  \end{myteo}
+
+  \[ \sum _{i=0} ^ {k} L[i] = \sum _{\sigma \in \Sigma} \sigma Rank
+  _\sigma (S,k) \]
+\end{frame}
+
+
+\subsection{Oracoli per distanze approssimati}
+\label{sec:approx}
+
+\begin{frame}{Approssimazioni}
+  Dover usare $\Omega \pa{N^2}$ bit potrebbe essere comunque troppo,
+  possiamo rinunciare ad avere le distanze precise in cambio di
+  un'ulteriore diminuzione dello spazio occupato dall'oracolo.
+  \vfill
+  
+  \begin{mydef}[$r$-approssimazione]
+    Un algoritmo che ritorna $d(u,v)$ tale che
+    \[ d\pa{u,v} \le r \delta\pa{u,v} \]
+  \end{mydef}
+\end{frame}
+
+\begin{frame}{}
+\setlength{\tabcolsep}{2pt}
+  \begin{tabular}{c| c| c|c|c}
+    \textbf{autore} & \textbf{preprocessing} & \textbf{spazio} & \textbf{tempo} & \textbf{approx} \\
+    \hline 
+    \multirow{3}{*}{
+    \begin{tabular}{c}
+      Thorup-Zwick\\
+      STOC 2001
+    \end{tabular}}
+  & $O\pa{kMN^{1/k}}$ & $O\pa{kN^{1+1/k}}$ &
+  $O\pa{k}$ & 2k-1 \\
+  & $O\pa{MN^{1/2}}$ & $O\pa{N^{3/2}}$ & $O(1)$ & $3$\\
+  & $O\pa{M\log N}$ & $O\pa{N\log{N}}$ & $O\pa{\log N}$  & $\log N$ \\
+\hline
+     \begin{tabular}{c}
+       Baswana-Gaur\\
+       Sen-Upadhyay\\
+       LNCS 2008
+     \end{tabular}
+     & 
+     \begin{tabular}{c}
+       $O\big( M + kN^{3/2}$\\
+       $N^{1/(2k)}$\\
+       $N^{1/\pa{2k-2}}\big)$
+     \end{tabular}
+     & $O\pa{kN^{1+1/k}}$ & $O\pa{k}$ & $\pa{2k-1,2}$ 
+  \end{tabular}
+\setlength{\tabcolsep}{6pt}
+\end{frame}
+
+\begin{frame}{Graph spanner}
+    \begin{mydef}[$t$-spanner]
+    $G' = (V,E')$ con $E' \subseteq E$ tale che la distanza in $G'$
+    \`e una $t$-approssimazione.
+  \end{mydef}
+
+  \begin{myteo}
+    Dato un grafo $G = (V,E)$ e due numeri $t,m\ge 1$ il problema di
+    determinare se esiste un $t$-spanner di $G$ con al pi\`u $m$ archi
+    \`e NP-completo.
+  \end{myteo}
+\end{frame}
+
+\subsection{Miglioramento dell'oracolo per cammini}
+\label{sec:oracolocamminipiu}
+
+\begin{frame}{Miglioramento}
+  \begin{block}{}
+    Se $w$ appartiene ad un cammino minimo in $G_{st}$ allora
+    costruiamo (ricorsivamente) tutti i cammini minimi in $G_{sw}$ e
+    $G_{wt}$. Concatenandoli otteniamo solo (ma non tutti) cammini
+    minimi in $G_{st}$.
+  \end{block}
+  \vfill
+
+  Ricorsivamente, per ogni cammino minimo in $G_{st}$ che
+  scopriamo, applichiamo questo ragionamento ai suoi nodi.  
+\end{frame}
+
+\begin{frame}{Struttura dei cammini}
+  Consideriamo il DAG $G_{st}$ dei cammini da $s$ a $t$ (che \`e
+  connesso come grafo indiretto), se togliamo i due estremi otteniamo
+  delle componenti connesse $H_1,...,H_k$.
+
+  \begin{mypro}
+    Per ogni componente $H_i$ ci basta conoscere un vertice $h_i \in H_i$
+    per conoscere tutta la componente
+  \end{mypro}
+  \vfill \pause
+
+  Invece di tutto l'insieme $P_{st}$ salviamo un elemento per ogni
+  componete connessa (che potrebbe contenere più elementi di
+  $P_{st}$.
+\end{frame}
+
+\begin{frame}{Caso pessimo}
+%    \begin{columns}
+%    \begin{column}{0.6\textwidth}
+      \begin{overprint}
+        \onslide<1> \includegraphics[width=\textwidth]{diamante}
+        \onslide<2-> \includegraphics[width=\textwidth]{diamantemultiplo}
+        \begin{center}
+          $\Theta \pa{N^3\log N}$ spazio!
+        \end{center}
+      \end{overprint}
+%    \end{column}
+%    \begin{column}{0.39\textwidth}
+ %    \end{column}
+%  \end{columns}
+
+\end{frame}
+
+\end{document}
