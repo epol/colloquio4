@@ -179,14 +179,14 @@ Relatore: & Prof. Roberto Grossi
     \end{column}
     \begin{column}{0.58\textwidth}
       \begin{itemize}
-      \item<1-> Cammino: $p = \pa{ 0,7,2, 4,6}$
-      \item<1-> Lunghezza: $w(p) = 7+4+10+0 = 21$
-      \item<2-> $P(u,v) = \set{\text{cammini tra }u\text{ e }v}$
-      \item<2-> Distanza: $\delta (u,v) = \min \limits _{p\in P(u,v)}
-        w(p)$
-      \item<3-> $\pa{V,\delta}$ \`e una pseudometrica
-      \item<3-> I cammini minimi sono ``quasi'' aciclici
-%      \item<3-> Sottocammini di cammini minimi sono minimi
+      \item<1-> Cammino: $p = \pa{ 0,7,2, 4,6}$;
+      \item<1-> lunghezza: $w(p) = 7+4+10+0 = 21$;
+      \item<2-> $P(u,v) = \set{\text{cammini tra }u\text{ e }v}$;
+      \item<2-> "distanza": $\delta (u,v) = \min \limits _{p\in P(u,v)}
+        w(p)$;
+%      \item<3-> $\pa{V,\delta}$ \`e una pseudometrica
+%      \item<3-> I cammini minimi sono ``quasi'' aciclici
+      \item<3-> sottocammini di cammini minimi sono minimi.
       \end{itemize}
     \end{column}
   \end{columns}
@@ -201,9 +201,13 @@ Relatore: & Prof. Roberto Grossi
   \item grafi non diretti.
   \end{itemize}
   \vfill
-
-  Avendo supposto gli archi non diretti la nostra distanza diventa una
-  metrica sullo spazio dei nodi.
+  
+  Conseguenze:
+  \begin{itemize}
+  \item $\forall s,t \; \delta\pa{s,t} \le N < \infty$;
+  \item non esistono cicli di lunghezza negativa;
+  \item la distanza ci definisce una metrica.
+  \end{itemize}
 \end{frame}
 
 \subsection{Cammini minimi fra due nodi}
@@ -283,7 +287,18 @@ Relatore: & Prof. Roberto Grossi
     $u \in P_{st} \Leftrightarrow u \in \neigh (t) \wedge \delta(s,u) =
     k-1$.
   \end{block}
+\end{frame}
 
+\begin{frame}{Generalizzazione della costruzione}
+  Scegliamo un  $M \subseteq V_{st}$.
+
+  Al variare di $u \in M$ tutti i cammini ottenuti concatenando un
+  cammino minimo da $s$ a $u$ con uno da $u$ a $t$ sono cammini minimi
+  da $s$ a $t$.
+  \vfill
+
+  Se $M$ \`e scelto in modo opportuno (per esempio $M = P_{st}$)
+  allora questi saranno anche i soli cammini minimi da $s$ a $t$.
 \end{frame}
 
 \begin{frame}{Numero di cammini minimi}
@@ -333,6 +348,40 @@ Relatore: & Prof. Roberto Grossi
 
 \section{Oracoli per cammini minimi}
 
+\subsection{L'insieme $P_{st}$}
+
+\begin{frame}{Salvare l'insieme}
+  Possiamo salvare, al variare di $s,t\in V$ l'insieme $P_{st}$.
+  \vfill
+  
+  \[ \sum _{s,t} \abs{ P_{st} } = \sum _s \sum _t \abs{ P_{st} } \le
+  \sum _s \sum _t \abs{ \neigh (t) } = \sum _s 2M = 2MN \]
+  Quindi $O(MN\log N) = O(N^3\log N)$ bit!
+\end{frame}
+
+\begin{frame}{Caso pessimo}
+%    \begin{columns}
+%    \begin{column}{0.6\textwidth}
+      \begin{overprint}
+        \onslide<1> \includegraphics[width=\textwidth]{diamante}
+        \onslide<2-> \includegraphics[width=\textwidth]{diamantemultiplo}
+        \begin{center}
+          $\Theta \pa{N^3\log N}$ spazio!
+        \end{center}
+      \end{overprint}
+%    \end{column}
+%    \begin{column}{0.39\textwidth}
+ %    \end{column}
+%  \end{columns}
+\end{frame}
+
+\begin{frame}{Calcolare l'insieme al volo}
+  \[ P_{st} = \set{ u \in \neigh(t) \mid \delta\pa{s,t} =
+    \delta\pa{s,u} + 1 } \]
+  \vfill \pause
+  \includegraphics[width=\textwidth]{millepiedi}
+\end{frame}
+
 \subsection{Oracolo per cammini}
 
 \begin{frame}{Cammini o grafo dei cammini?}
@@ -342,11 +391,11 @@ Relatore: & Prof. Roberto Grossi
   \item (implicito) ritornando il grafo $G_{st}$ dei cammini minimi.
   \end{itemize}
   
-  L'oracolo implicito ha un output più piccolo.
+%  L'oracolo implicito ha un output più piccolo.
 
-  Dall'output dell'oracolo implicito si può costruire l'output
-  dell'esplicito.
-  \vfill 
+%  Dall'output dell'oracolo implicito si può costruire l'output
+%  dell'esplicito.
+  \vfill \pause
   
   \begin{myoss}
     \`E pi\`u difficile costruire un oracolo implicito.
@@ -356,22 +405,28 @@ Relatore: & Prof. Roberto Grossi
 \begin{frame}{Riduzione ad oracoli piccoli}
   Consideriamo il problema di restituire tutti i cammini.
 
-  Possiamo salvare:
-  \begin{itemize}
-  \item un oracolo per distanze $\delta(i,j)$ ($O(N^2)$ bit);
-  \item una tabella booleana $A(i,j)$ dove $A(i,j)$ \`e vero se e solo
-    se il numero di cammini fra $i$ e $j$ \`e minore o uguale del
-    grado di $j$. ($O(N^2)$ bit).
-  \end{itemize}
-  \vfill
-  Quando i cammini sono tanti (pi\`u del grado di $j$) possiamo
-  permetterci di calcolare al volo $P_{ij}$ semplicemente testando la
-  condizione $\delta\pa{s,u} = \delta\pa{s,t} -1$.
+  Se ci sono abbastanza cammini da stampare possiamo pensare di
+  calcolare al volo $P_{st}$. Altrimenti dobbiamo calcolare $P_{st}$
+  in un altro modo (oppure non utilizzare $P_{st}$).
+  \vfill 
+  
+  \[ A(s,t) = \mathcal{B}\bra{\abs{mpath(s,t)} \le \abs{neigh(t)}} \]
+%  Possiamo salvare:
+%  \begin{itemize}
+%  \item un oracolo per distanze $\delta(i,j)$ ($O(N^2)$ bit);
+%  \item una tabella booleana $A(i,j)$ dove $A(i,j)$ \`e vero se e solo
+%    se il numero di cammini fra $i$ e $j$ \`e minore o uguale del
+%    grado di $j$. ($O(N^2)$ bit).
+%  \end{itemize}
+%  \vfill
+%  Quando i cammini sono tanti (pi\`u del grado di $j$) possiamo
+%  permetterci di calcolare al volo $P_{ij}$ semplicemente testando la
+%  condizione $\delta\pa{s,u} = \delta\pa{s,t} -1$.
 \end{frame}
 
 \begin{frame}{Algoritmo}
   Sia $\pi (i,j)$ un oracolo che elenca i cammini minimi tra $i$ e $j$
-  quando il loro numero \`e minore di $\abs{\neigh(t)}$.
+  quando il loro numero \`e minore o uguale di $\abs{\neigh(t)}$.
   \vfill
 
   Vogliamo costruire un oracolo $C(i,j)$ che elenca i cammini minimi
@@ -489,6 +544,10 @@ Relatore: & Prof. Roberto Grossi
   molto simili!
 \end{frame}
 
+\begin{frame}{Esempio}
+  \includegraphics[angle=180,width=\textwidth]{millepieditestadiamante}
+\end{frame}
+
 \begin{frame}{Un approccio dinamico}
   \begin{algorithmic}
     \State {V$_{st}$ := \{s,t\}}
@@ -516,13 +575,7 @@ Relatore: & Prof. Roberto Grossi
   insiemi vengono implementati con tabelle hash.  \vfill
 
   Lo spazio utilizzato \`e lo spazio utilizzato per salvare gli
-  insiemi $P_{st}$.
-
-  Possiamo vedere che:
-  \[ \sum _{s,t} \abs{P_{st}} = \sum _s \sum _t \abs{P_{st}} \le \sum
-  _s \sum _t \deg (t) = \sum _s 2M = 2NM \]
-  quindi, ricordando che un puntatore a nodo occupa $\log N$ bit,
-  abbiamo che lo spazio utilizzato \`e $O(NM\log N)$ bit.
+  insiemi $P_{st}$ che sappiamo essere $O(NM\log N)$.
 \end{frame}
 
 
@@ -656,21 +709,18 @@ Relatore: & Prof. Roberto Grossi
   \item dimostrare un lower bound migliore per il problema (che
     verrebbe riportato al problema dei cammini)
   \item migliorare la riduzione dai cammini alle intersezioni
-    elimiando il fattore~ $d$
+    eliminando il fattore~ $d$
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Generalizzazioni}
   Abbiamo lavorato per semplicit\`a con ipotesi abbastanza stringenti
   (grafi indiretti non pesati).  \vfill
+  
+  Possiamo studiare:
   \begin{itemize}
-  \item Generalizzare i nostri algoritmi a grafi diretti \`e facile,
-    bisogna stare attenti al fatto che $\delta\pa{u,v} \neq
-    \delta\pa{v,u}$. Inoltre l'oracolo per distanze potrebbe divetare
-    pi\`u grande (al massimo di un fattore $\log N$).
-  \item Generalizzare i nostri algoritmi a grafi pesati pu\`o essere
-    pi\`u difficile, definire l'insieme $P_{st}$ non \`e pi\`u cos\`i
-    semplice ma resta comunque possibile.
+  \item generalizzazioni a grafi diretti;
+  \item generalizzazioni a grafi pesati.
   \end{itemize}
 \end{frame}
 
