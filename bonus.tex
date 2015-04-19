@@ -150,6 +150,57 @@ Relatore: & Prof. Roberto Grossi
 
 \section{Contenuti bonus}
 
+\subsection{Grafi planari}
+
+\begin{frame}{Separation theorem}
+  \begin{myteo}[\textit{Separation theorem}]
+    Dato un grafo planare $G = (V,E)$ \`e possibile partizionare $V$
+    in tre insiemi $A,B,S$ tali che
+    \begin{itemize}
+    \item $A$ e $B$ hanno al pi\`u $2N/3$ vertici ciascuno
+    \item $S$ ha $O\pa{ \sqrt{N}}$ vertici
+    \item non esistono archi tra $A$ e $B$
+    \end{itemize}
+  \end{myteo}
+  \vfill
+  \pause
+  Sottografi di grafi planari sono planari, quindi possiamo applicare
+  ricorsivamente il teorema a $A\cup S$ e $B\cup S$.
+\end{frame}
+
+\begin{frame}{Dati da mantenere}
+  La struttura data dal \textit{separation theorem} ci permette di
+  procedere con una strategia di \textit{divide et impera}.
+  \vfill \pause
+
+  Per ogni coppia $s,t\in V$ ci salviamo i nodi separanti ``buoni'',
+  cio\`e (detto $S$ un insieme che separa $s$ e $t$ dato dal
+  separation theorem):
+  \[ S_{st} = \set{ u \mid u \in S \wedge \delta\pa{s,u} +
+    \delta\pa{u,t} = \delta\pa{s,t} } \]
+  
+  questi sono, al pi\`u, $O\pa{\sqrt{N}}$.
+  \vfill \pause
+
+  \begin{block}{Spazio utilizzato}
+    \[ O \pa{N^{2.5}\log N} \text{ bit} \]
+  \end{block}
+\end{frame}
+
+\begin{frame}{Un oracolo}
+  Supponiamo di esserci salvati i $S_{st}$ al variare di $s,t\in V$.
+
+  Possiamo costruire tutti i cammini minimi fra $s$ e $t$ come la
+  congiunzione di tutti i cammini minimi tra $s$ e $u$ e tutti i
+  cammini minimi tra $u$ e $t$.
+  \vfill
+
+  Questo \`e effettivamente un oracolo e lo spazio utilizzato \`e
+  quello per salvare i $S_{st}$ che abbiamo detto essere $O\pa{
+    N^{2.5} \log n}$ bit.
+\end{frame}
+
+
 \subsection{APSP}
 \label{sec:APSP}
 

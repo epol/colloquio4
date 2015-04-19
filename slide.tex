@@ -422,12 +422,12 @@ Relatore: & Prof. Roberto Grossi
 \end{frame}
 
 \begin{frame}{Algoritmo}
-  Sia $\pi (i,j)$ un oracolo che elenca i cammini minimi tra $i$ e $j$
+  Sia $\pi (s,t)$ un oracolo che elenca i cammini minimi tra $s$ e $t$
   quando il loro numero \`e minore o uguale di $\abs{\neigh(t)}$.
   \vfill
 
-  Vogliamo costruire un oracolo $C(i,j)$ che elenca i cammini minimi
-  tra $i$ e $j$ in ogni caso.
+  Vogliamo costruire un oracolo $C(s,t)$ che elenca i cammini minimi
+  tra $s$ e $t$ in ogni caso.
 \end{frame}
 
 \begin{frame}
@@ -528,9 +528,8 @@ Relatore: & Prof. Roberto Grossi
   Vogliamo costruire un oracolo che dati $s,t\in V$ restituisca
   $G_{st}$.
   
-  Possiamo supporre di esserci salvati, al variare di $s,t\in V$ gli
-  insiemi $P_{st}$.
-  \vfill
+  Supponiamo di saper costruire velocemente, al variare di $s,t\in V$,
+  gli insiemi $P_{st}$.  \vfill
   
   Metodo ricorsivo:
   \[ G_{st} = \bra{\bigcup _{u \in P_{st}} G_{su}} \cup \pa{ P_{st}
