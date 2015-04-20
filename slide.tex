@@ -589,32 +589,32 @@ Relatore: & Prof. Roberto Grossi
   Eventuali lower bound per l'intersezione passano ai cammini minimi.
 \end{frame}
 
-\begin{frame}{Riduzione da cammini a intersezione}
-  Sia $G = (V,E)$ un grafo e definiamo:
-  \[ L_s (k) = \set{ u \in V \mid \delta\pa{s,u} = k } \]
-  \pause
-  Possiamo quindi esprimere l'insieme $P_{st}$ come:
-  \[ P_{st} = L_s(\delta\pa{s,t} -1) \cap L_t(1) \]
-  \vfill \pause
+% \begin{frame}{Riduzione da cammini a intersezione}
+%   Sia $G = (V,E)$ un grafo e definiamo:
+%   \[ L_s (k) = \set{ u \in V \mid \delta\pa{s,u} = k } \]
+%   \pause
+%   Possiamo quindi esprimere l'insieme $P_{st}$ come:
+%   \[ P_{st} = L_s(\delta\pa{s,t} -1) \cap L_t(1) \]
+%   \vfill \pause
 
-  Supponendo di avere un oracolo per distanze e un oracolo per le
-  intersezioni dei $L_s(k)$ possiamo costruire un oracolo per cammini
-  minimi.
-\end{frame}
+%   Supponendo di avere un oracolo per distanze e un oracolo per le
+%   intersezioni dei $L_s(k)$ possiamo costruire un oracolo per cammini
+%   minimi.
+% \end{frame}
 
-\begin{frame}{Osservazioni sulla riduzione}
-  Abbiamo ottenuto $n = dN$ insiemi (dove $d$ \`e il diametro del
-  grafo) la cui somma delle cardinalit\`a \`e:
-  \[ m = \sum _s \sum _k  L_s(k) = \sum _s N = N^2 \]
-  \vfill \pause
+% \begin{frame}{Osservazioni sulla riduzione}
+%   Abbiamo ottenuto $n = dN$ insiemi (dove $d$ \`e il diametro del
+%   grafo) la cui somma delle cardinalit\`a \`e:
+%   \[ m = \sum _s \sum _k  L_s(k) = \sum _s N = N^2 \]
+%   \vfill \pause
 
-  Quindi, supponendo di conoscere un buon oracolo per intersezioni,
-  potremmo riuscire a costruire un buon oracolo per grafi di
-  \textbf{diametro piccolo} (per esempio le reti sociali).
+%   Quindi, supponendo di conoscere un buon oracolo per intersezioni,
+%   potremmo riuscire a costruire un buon oracolo per grafi di
+%   \textbf{diametro piccolo} (per esempio le reti sociali).
 
-  Questo comunque occuper\`a $\tilde \Omega (n^2) = \tilde \Omega
-  (d^2N^2)$ bit.
-\end{frame}
+%   Questo comunque occuper\`a $\tilde \Omega (n^2) = \tilde \Omega
+%   (d^2N^2)$ bit.
+% \end{frame}
 
 
 \section{Conclusioni e possibili sviluppi}
@@ -653,9 +653,8 @@ Relatore: & Prof. Roberto Grossi
   Restano aperti due problemi:
   \begin{itemize}
   \item dimostrare un lower bound migliore per il problema (che
-    verrebbe riportato al problema dei cammini)
-  \item migliorare la riduzione dai cammini alle intersezioni
-    eliminando il fattore~ $d$
+    verrebbe riportato al problema dei cammini);
+  \item trovare una riduzione dai cammini alle intersezioni.
   \end{itemize}
 \end{frame}
 
