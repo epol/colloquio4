@@ -109,7 +109,7 @@
 
 
 \title[Oracoli per cammini minimi su grafi]{Cammini minimi su grafi:\\
-  oracoli per distanze e cammini}
+  oracoli per cammini}
 %\subtitle{}
 %\author{Enrico Polesel}
 %\institute[Scuola Normale Superiore]{Scuola Normale Superiore}
@@ -181,8 +181,8 @@ Relatore: & Prof. Roberto Grossi
       \begin{itemize}
       \item<1-> Cammino: $p = \pa{ 0,7,2, 4,6}$;
       \item<1-> lunghezza: $w(p) = 7+4+10+0 = 21$;
-      \item<2-> $P(s,t) = \set{\text{cammini tra }u\text{ e }v}$;
-      \item<2-> "distanza": $\delta (s,t) = \min \limits _{p\in P(s,t)}
+      \item<2-> $P(s,t) = \set{\text{cammini tra }s\text{ e }t}$;
+      \item<2-> "distanza": $\delta (s,t) = \inf \limits _{p\in P(s,t)}
         w(p)$;
 %      \item<3-> $\pa{V,\delta}$ \`e una pseudometrica
 %      \item<3-> I cammini minimi sono ``quasi'' aciclici
@@ -289,17 +289,6 @@ Relatore: & Prof. Roberto Grossi
   \end{block}
 \end{frame}
 
-\begin{frame}{Generalizzazione della costruzione}
-  Scegliamo un  $M \subseteq V_{st}$.
-
-  Al variare di $u \in M$ tutti i cammini ottenuti concatenando un
-  cammino minimo da $s$ a $u$ con uno da $u$ a $t$ sono cammini minimi
-  da $s$ a $t$.
-  \vfill
-
-  Se $M$ \`e scelto in modo opportuno (per esempio $M = P_{st}$)
-  allora questi saranno anche i soli cammini minimi da $s$ a $t$.
-\end{frame}
 
 \begin{frame}{Numero di cammini minimi}
   Dati due vertici il numero di cammini minimi tra i due potrebbe
@@ -617,7 +606,7 @@ Relatore: & Prof. Roberto Grossi
 % \end{frame}
 
 
-\section{Conclusioni e possibili sviluppi}
+\section{Possibili sviluppi e problemi correlati}
 
 \subsection{}
 
@@ -625,6 +614,29 @@ Relatore: & Prof. Roberto Grossi
   \tableofcontents[currentsection]
 \end{frame}
 
+\begin{frame}{Generalizzazioni}
+  Abbiamo lavorato per semplicit\`a con ipotesi abbastanza stringenti
+  (grafi indiretti non pesati).  \vfill
+  
+  Possiamo studiare:
+  \begin{itemize}
+  \item generalizzazioni a grafi diretti;
+  \item generalizzazioni a grafi pesati.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Problemi collegati}
+  Varianti di questo problema sono (gi\`a studiati per le distanze):
+  \vfill
+  \begin{itemize}
+  \item ritornare un'approssimazione di tutti i cammini minimi (per
+    esempio tutti i cammini la cui lunghezza \`e una
+    $r$-approssimazione della distanza);
+  \item costruire algoritmi dinamici (cio\`e con inserimento e
+    rimozione di archi a tempo di esecuzione) per ritornare i cammini
+    minimi.
+  \end{itemize}
+\end{frame}
 
 \begin{frame}{Sui piccoli miglioramenti}
   L'algoritmo principale che abbiamo presentato utilizza $O\pa{ NM
@@ -655,30 +667,6 @@ Relatore: & Prof. Roberto Grossi
   \item dimostrare un lower bound migliore per il problema (che
     verrebbe riportato al problema dei cammini);
   \item trovare una riduzione dai cammini alle intersezioni.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Generalizzazioni}
-  Abbiamo lavorato per semplicit\`a con ipotesi abbastanza stringenti
-  (grafi indiretti non pesati).  \vfill
-  
-  Possiamo studiare:
-  \begin{itemize}
-  \item generalizzazioni a grafi diretti;
-  \item generalizzazioni a grafi pesati.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Problemi collegati}
-  Varianti di questo problema sono (gi\`a studiati per le distanze):
-  \vfill
-  \begin{itemize}
-  \item ritornare un'approssimazione di tutti i cammini minimi (per
-    esempio tutti i cammini la cui lunghezza \`e una
-    $r$-approssimazione della distanza);
-  \item costruire algoritmi dinamici (cio\`e con inserimento e
-    rimozione di archi a tempo di esecuzione) per ritornare i cammini
-    minimi.
   \end{itemize}
 \end{frame}
 
