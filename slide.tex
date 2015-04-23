@@ -28,6 +28,9 @@
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
 
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
 
 %\usepackage{pdftricks}
 %\begin{psinputs}
@@ -625,34 +628,34 @@ Relatore: & Prof. Roberto Grossi
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Problemi collegati}
-  Varianti di questo problema sono (gi\`a studiati per le distanze):
-  \vfill
-  \begin{itemize}
-  \item ritornare un'approssimazione di tutti i cammini minimi (per
-    esempio tutti i cammini la cui lunghezza \`e una
-    $r$-approssimazione della distanza);
-  \item costruire algoritmi dinamici (cio\`e con inserimento e
-    rimozione di archi a tempo di esecuzione) per ritornare i cammini
-    minimi.
-  \end{itemize}
-\end{frame}
+% \begin{frame}{Problemi collegati}
+%   Varianti di questo problema sono (gi\`a studiati per le distanze):
+%   \vfill
+%   \begin{itemize}
+%   \item ritornare un'approssimazione di tutti i cammini minimi (per
+%     esempio tutti i cammini la cui lunghezza \`e una
+%     $r$-approssimazione della distanza);
+%   \item costruire algoritmi dinamici (cio\`e con inserimento e
+%     rimozione di archi a tempo di esecuzione) per ritornare i cammini
+%     minimi.
+%   \end{itemize}
+% \end{frame}
 
-\begin{frame}{Sui piccoli miglioramenti}
-  L'algoritmo principale che abbiamo presentato utilizza $O\pa{ NM
-    \log N}$ bit di memoria. Il nostro lavoro si \`e concentrato sul
-  cercare di migliorare i fattori polinomiali legati alle dimensioni
-  del grafo.
-  \vfill
+% \begin{frame}{Sui piccoli miglioramenti}
+%   L'algoritmo principale che abbiamo presentato utilizza $O\pa{ NM
+%     \log N}$ bit di memoria. Il nostro lavoro si \`e concentrato sul
+%   cercare di migliorare i fattori polinomiali legati alle dimensioni
+%   del grafo.
+%   \vfill
   
-  Restano aperti due possibili miglioramenti:
-  \begin{itemize}
-  \item migliorare i fattori logaritmici (per esempio eliminando il~
-    $\log N$);
-  \item sfruttare le operazioni binari su word per migliorare di
-    fattori~ $w$ (lunghezza di una word, per esempio $64$ bit).
-  \end{itemize}
-\end{frame}
+%   Restano aperti due possibili miglioramenti:
+%   \begin{itemize}
+%   \item migliorare i fattori logaritmici (per esempio eliminando il~
+%     $\log N$);
+%   \item sfruttare le operazioni binari su word per migliorare di
+%     fattori~ $w$ (lunghezza di una word, per esempio $64$ bit).
+%   \end{itemize}
+% \end{frame}
 
 \begin{frame}{Sulle intersezioni}
   Abbiamo mostrato un'interessante collegamento con il problema
@@ -670,21 +673,49 @@ Relatore: & Prof. Roberto Grossi
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Congetture}
-  Presentiamo le seguenti congetture:
-  \begin{mycon}
-    Un oracolo per ritornare il grafo dei cammini minimi deve
-    utilizzare $\tilde \Omega \pa{ NM}$ memoria.
-  \end{mycon}
-  \begin{mycon}
-    Un oracolo per elencare tutti i cammini minimi deve
-    utilizzare $\tilde \Omega \pa{ NM}$ memoria.
-  \end{mycon}
-  \begin{mycon}
-    Un oracolo per elencare tutti gli elementi dell'intersezione di
-    insiemi deve utilizzare $\tilde \Omega \pa{ nm}$ memoria.
-  \end{mycon}
+
+\begin{frame}{Riduzioni}
+   \begin{tikzpicture}
+     \tikzstyle{block} = [draw, fill=blue!20, rectangle, minimum height=3em, minimum width=3em]
+     \node [block, name=pst] {Enumerare $P_{st}$};
+     \node [block, name=impl, above of=pst, node distance=2cm]
+     {Cammini implicito};
+     \node [block, name=espl, right of=impl, node distance=4cm] {Cammini esplicito};
+     \node [block, name=poch, right of=espl, node distance=4cm] {Pochi
+     cammini};
+     \node [block, name=inte, below of=espl, node distance=2cm]
+     {Enumerare $S_i\cap S_j$};
+    
+     \draw [->] (pst) -- (impl) ;
+     \draw [->] (impl) -- (espl) ;
+     \draw [->] (poch) -- (espl);
+     \draw [->] (espl) -- (inte) ;
+\begin{overprint}
+  \onslide <2>
+  \draw [dotted, ->] (inte) -- (pst);
+  \onslide<3->
+     \draw [dashed, ->] (inte) -- (impl);
+\end{overprint}
+     % \draw [dashed, ->] (inte) -- (espl);
+ \end{tikzpicture}
 \end{frame}
+
+
+% \begin{frame}{Congetture}
+%   Presentiamo le seguenti congetture:
+%   \begin{mycon}
+%     Un oracolo per ritornare il grafo dei cammini minimi deve
+%     utilizzare $\tilde \Omega \pa{ NM}$ memoria.
+%   \end{mycon}
+%   \begin{mycon}
+%     Un oracolo per elencare tutti i cammini minimi deve
+%     utilizzare $\tilde \Omega \pa{ NM}$ memoria.
+%   \end{mycon}
+%   \begin{mycon}
+%     Un oracolo per elencare tutti gli elementi dell'intersezione di
+%     insiemi deve utilizzare $\tilde \Omega \pa{ nm}$ memoria.
+%   \end{mycon}
+% \end{frame}
 
 
 \end{document}
