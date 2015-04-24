@@ -105,7 +105,7 @@
 \DeclareMathOperator{\im}{Im}
 
 \DeclareMathOperator{\neigh}{neigh}
-
+\DeclareMathOperator{\mpath}{mpath}
 
 
 \begin{document}
@@ -212,6 +212,19 @@ Relatore: & Prof. Roberto Grossi
     \item cammini minimi approssimati.
     \end{itemize}
   \end{itemize}
+\end{frame}
+
+\begin{frame}{Numero di cammini minimi}
+  Dati due vertici il numero di cammini minimi tra i due potrebbe
+  essere anche esponenziale
+  \vfill
+
+  \begin{overprint}
+    \onslide<1>  \includegraphics[width=\textwidth]{catena0}
+    \onslide<2>  \includegraphics[width=\textwidth]{catena1}
+    \onslide<3>  \includegraphics[width=\textwidth]{catena2}
+    \onslide<4>  \includegraphics[width=\textwidth]{catena3}
+  \end{overprint}
 \end{frame}
 
 
@@ -390,14 +403,14 @@ Relatore: & Prof. Roberto Grossi
 \end{frame}
 
 \begin{frame}{Riduzione ad oracoli piccoli}
-  Consideriamo il problema di restituire tutti i cammini.
+ \[ P_{st} = \set{ u \in \neigh(t) \mid \delta\pa{s,t} =
+   \delta\pa{s,u} + 1 } \]
 
-  Se ci sono abbastanza cammini da stampare possiamo pensare di
-  calcolare al volo $P_{st}$. Altrimenti dobbiamo calcolare $P_{st}$
-  in un altro modo (oppure non utilizzare $P_{st}$).
+  Se $\abs{\mpath(s,t)} > \abs{neigh(t)}$ allora possiamo calcolare al
+    volo $P_{st}$
   \vfill 
   
-  \[ A(s,t) = \mathcal{B}\bra{\abs{mpath(s,t)} \le \abs{neigh(t)}} \]
+  \[ A(s,t) = \mathcal{B}\bra{\abs{\mpath(s,t)} > \abs{neigh(t)}} \]
 %  Possiamo salvare:
 %  \begin{itemize}
 %  \item un oracolo per distanze $\delta(i,j)$ ($O(N^2)$ bit);
@@ -412,18 +425,18 @@ Relatore: & Prof. Roberto Grossi
 \end{frame}
 
 \begin{frame}{Algoritmo}
-  Sia $\pi (s,t)$ un oracolo che elenca i cammini minimi tra $s$ e $t$
-  quando il loro numero \`e minore o uguale di $\abs{\neigh(t)}$.
+  Sia $\pi (s,t)$ un oracolo che elenca $\mpath(s,t)$ quando
+  $\abs{\mpath(s,t)} \le \abs{neigh(t)}$. 
   \vfill
 
-  Vogliamo costruire un oracolo $C(s,t)$ che elenca i cammini minimi
+  Vogliamo costruire un oracolo $C(s,t)$ che elenca $\mpath(s,t)$
   tra $s$ e $t$ in ogni caso.
 \end{frame}
 
 \begin{frame}
   Siano $s,t \in V$ i nodi di cui vogliamo sapere i cammini.
   \begin{algorithmic}
-    \If {A(s,t)}
+    \If {!A(s,t)}
     \Comment {Ci sono pochi cammini}
 
     \Return {$\pi$(s,t)}
@@ -447,14 +460,15 @@ Relatore: & Prof. Roberto Grossi
 \end{frame}
 
 \begin{frame}{Complessit\`a}
-  Si vede facilmente che lo spazio utilizzato \`e $O(N^2)$ bit pi\`u
-  lo spazio usato dall'oracolo $\pi$.
+  Spazio utilizzato:
+  \begin{itemize}
+  \item $O(N^2)$ bit per $A$ e $\delta$;
+  \item spazio utlizzato da $\pi$.
+  \end{itemize}
   \vfill
 
-  Il tempo utilizzato per calcolare $C(s,t)$ \`e proporzionale alla
-  sua grandezza, infatti la condizione $\neg A(s,t)$ ci garantisce il
-  tempo utilizzato per calcolare $P_{st}$ viene ammortizzato
-  nell'output dei cammini.
+  $A(s,t)$ ci garantisce che il tempo di visita di $\neigh (t)$ venga
+  ammortizzato nella dimensione dell'output.
 \end{frame}
 
 \begin{frame}{Esempio}
@@ -465,11 +479,9 @@ Relatore: & Prof. Roberto Grossi
 \subsection{Oracolo per sottografo dei cammini minimi}
 
 \begin{frame}{Un primo approccio}
-  Vogliamo costruire un oracolo che dati $s,t\in V$ restituisca
-  $G_{st}$.
+  Vogliamo un oracolo implicito.
   
-  Supponiamo di saper costruire velocemente, al variare di $s,t\in V$,
-  gli insiemi $P_{st}$.  \vfill
+  Supponiamo di esserci salvati i $P_{st}$.  \vfill
   
   Metodo ricorsivo:
   \[ G_{st} = \bra{\bigcup _{u \in P_{st}} G_{su}} \cup \pa{ P_{st}
@@ -507,11 +519,11 @@ Relatore: & Prof. Roberto Grossi
 \end{frame}
 
 \begin{frame}{Analisi}
-  Si pu\`o vedere che questo \`e effettivamente un oracolo se gli
-  insiemi vengono implementati con tabelle hash.  \vfill
-
-  Lo spazio utilizzato \`e lo spazio utilizzato per salvare gli
-  insiemi $P_{st}$ che sappiamo essere $O(NM\log N)$ bit.
+  Questo \`e un oracolo se gli insiemi vengono implementati con
+  tabelle hash.  \vfill
+  
+  Spazio utilizzato: lo spazio per gli insiemi $P_{st}$: $O(NM\log N)$
+  bit.
 \end{frame}
 
 
@@ -520,19 +532,16 @@ Relatore: & Prof. Roberto Grossi
 \subsection{Oracoli per intersezioni di insiemi}
 
 \begin{frame}{Intersezione di insiemi}
-  Sia $X$ un insieme ambiente e supponiamo di avere
+  Sia $X$ un insieme ambiente e siano
   \[ S_1, ... , S_n \in \mathcal{P}(X) \]
-  
-  Siamo interessati a rispondere ad interrogazioni riguardo $S_i \cap
-  S_j$.
   \vfill
 
-  Esistono due tipi principali di interrogazioni:
+  Esistono due tipi principali di richieste su $S_i \cap S_j$:
   \begin{itemize}
   \item $S_i \cap S_j$ \`e non vuoto?
-  \item enumerare gli elementi di $S_i \cap S_j$.
+  \item Enumerare gli elementi di $S_i \cap S_j$.
   \end{itemize}
-  Evidentemente il secondo problema \`e pi\`u difficile del primo.
+  Il secondo problema \`e pi\`u difficile del primo.
 \end{frame}
 
 \begin{frame}{Oracoli ``vuoto o non vuoto''}
@@ -542,11 +551,9 @@ Relatore: & Prof. Roberto Grossi
     per $c$ sufficientemente grande. Allora tale oracolo deve occupare
     $\tilde \Omega (n^2)$ memoria.
   \end{mycon}
-  \vfill
+  \vfill 
   
-  Nelle ipotesi della congettura scopriamo che, a meno di fattori
-  logaritmici, l'oracolo ``banale'' che salva tutte le possibili
-  risposte (e occupa $O(n^2)$ bit) \`e ``ottimo'' in spazio.
+  Lo stesso limite passa al problema di enumerare i cammini minimi.
 \end{frame}
 
 \subsection{Relazione con gli oracoli per cammini minimi}
@@ -564,19 +571,20 @@ Relatore: & Prof. Roberto Grossi
 \end{frame}
 
 \begin{frame}{Osservazioni sulla riduzione}
-  Sia $m = \sum _i \abs{S_i}$, allora il grafo costruito ha $N = n +
-  \abs{X}$ nodi e $M = m$ archi.
+  \begin{itemize}
+  \item   $M = m := \sum _i \abs{S_i}$
+  \item $N = n + \abs{X}$
+  \end{itemize}
   
   Per $\abs{X}$ piccolo ($\abs{X} = \log _c (n)$) abbiamo costruito un
-  oracolo per intersezioni in $O\pa{nm\log n}$ bit che \`e lontano
-  dall'attuale lower bound di $\tilde \Omega\pa{n^2}$ bit.  \vfill
-  \pause
+  oracolo per intersezioni in $O\pa{nm\log n}$ bit
 
-  Quindi costruire un oracolo per cammini minimi \`e pi\`u difficile
-  di costruire un oracolo per enumerare l'intersezione di insiemi.
+  Attuale lower bound: $\tilde \Omega\pa{n^2}$ bit! \vfill
   \pause
-
-  Eventuali lower bound per l'intersezione passano ai cammini minimi.
+  
+  \begin{block}{}
+    Eventuali lower bound per l'intersezione passano ai cammini minimi.
+  \end{block}
 \end{frame}
 
 % \begin{frame}{Riduzione da cammini a intersezione}
@@ -616,10 +624,7 @@ Relatore: & Prof. Roberto Grossi
 \end{frame}
 
 \begin{frame}{Generalizzazioni}
-  Abbiamo lavorato per semplicit\`a con ipotesi abbastanza stringenti
-  (grafi indiretti non pesati).  \vfill
-  
-  Possiamo studiare:
+  \`E possibile studiare:
   \begin{itemize}
   \item generalizzazioni a grafi diretti;
   \item generalizzazioni a grafi pesati.
@@ -656,13 +661,6 @@ Relatore: & Prof. Roberto Grossi
 % \end{frame}
 
 \begin{frame}{Sulle intersezioni}
-  Abbiamo mostrato un'interessante collegamento con il problema
-  dell'intersezione di insiemi.
-  
-  Questo problema si ritrova in altri contesti, per esempio nelle basi
-  di dati.
-  \vfill
-
   Restano aperti due problemi:
   \begin{itemize}
   \item dimostrare un lower bound migliore per il problema (che
