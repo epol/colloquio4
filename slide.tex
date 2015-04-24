@@ -185,7 +185,7 @@ Relatore: & Prof. Roberto Grossi
       \item<1-> Cammino: $p = \pa{ 0,7,2, 4,6}$;
       \item<1-> lunghezza: $w(p) = 7+4+10+0 = 21$;
       \item<2-> $P(s,t) = \set{\text{cammini tra }s\text{ e }t}$;
-      \item<2-> "distanza": $\delta (s,t) = \inf \limits _{p\in P(s,t)}
+      \item<2-> \textit{distanza}: $\delta (s,t) = \inf \limits _{p\in P(s,t)}
         w(p)$;
 %      \item<3-> $\pa{V,\delta}$ \`e una pseudometrica
 %      \item<3-> I cammini minimi sono ``quasi'' aciclici
@@ -215,9 +215,8 @@ Relatore: & Prof. Roberto Grossi
 \end{frame}
 
 \begin{frame}{Numero di cammini minimi}
-  Dati due vertici il numero di cammini minimi tra i due potrebbe
-  essere anche esponenziale
-  \vfill
+  Il numero di cammini minimi tra due vertici potrebbe essere anche
+  esponenziale \vfill
 
   \begin{overprint}
     \onslide<1>  \includegraphics[width=\textwidth]{catena0}
@@ -257,26 +256,26 @@ Relatore: & Prof. Roberto Grossi
       \begin{itemize}
       \item
         $u \in G_{st} \Rightarrow \delta\pa{s,u} + \delta\pa{u,t} =
-        \delta\pa{ s,t}$
+        \delta\pa{ s,t}$;
       \end{itemize}
         \onslide<2->
         \begin{itemize}
         \item
           $u \in G_{st} \Leftrightarrow \delta\pa{s,u} +
-          \delta\pa{u,t} = \delta\pa{ s,t}$
+          \delta\pa{u,t} = \delta\pa{ s,t}$;
         \end{itemize}
     \end{overprint}
     \pause \pause
   \begin{itemize}
   \item
     $(u,u') \in E_{st} \Leftrightarrow \delta\pa{s,u'} =
-    \delta\pa{s,u} + w(u,u') = \delta\pa{s,u} + 1$
-  \item ogni cammino in $G_{st}$ \`e minimo
+    \delta\pa{s,u} + w(u,u') = \delta\pa{s,u} + 1$;
+  \item ogni cammino in $G_{st}$ \`e minimo.
   \end{itemize}
 
   \pause
   \begin{mypro}
-    Il grafo $G_{st}$ dei cammini minimi \`e un DAG (grafo aciclico diretto)
+    Il grafo $G_{st}$ dei cammini minimi \`e un DAG (grafo aciclico diretto).
   \end{mypro}
 %  Scegliendo opportunamente un cammino per ogni vertice otteniamo un
 %  albero.
@@ -404,13 +403,13 @@ Relatore: & Prof. Roberto Grossi
 
 \begin{frame}{Riduzione ad oracoli piccoli}
  \[ P_{st} = \set{ u \in \neigh(t) \mid \delta\pa{s,t} =
-   \delta\pa{s,u} + 1 } \]
+   \delta\pa{s,u} + 1 }. \]
 
   Se $\abs{\mpath(s,t)} > \abs{neigh(t)}$ allora possiamo calcolare al
-    volo $P_{st}$
+    volo $P_{st}$.
   \vfill 
   
-  \[ A(s,t) = \mathcal{B}\bra{\abs{\mpath(s,t)} > \abs{neigh(t)}} \]
+  \[ A(s,t) = \mathcal{B}\bra{\abs{\mpath(s,t)} > \abs{neigh(t)}}. \]
 %  Possiamo salvare:
 %  \begin{itemize}
 %  \item un oracolo per distanze $\delta(i,j)$ ($O(N^2)$ bit);
@@ -485,7 +484,7 @@ Relatore: & Prof. Roberto Grossi
   
   Metodo ricorsivo:
   \[ G_{st} = \bra{\bigcup _{u \in P_{st}} G_{su}} \cup \pa{ P_{st}
-    \cup \set{ t} , \set{ (u,t) \mid u \in P_{st} } } \]
+    \cup \set{ t} , \set{ (u,t) \mid u \in P_{st} } }. \]
   \pause
 
   Non \`e un oracolo: $G_{su}$ e $G_{sv}$ ($u\neq v$) potrebbe essere
@@ -533,7 +532,7 @@ Relatore: & Prof. Roberto Grossi
 
 \begin{frame}{Intersezione di insiemi}
   Sia $X$ un insieme ambiente e siano
-  \[ S_1, ... , S_n \in \mathcal{P}(X) \]
+  \[ S_1, ... , S_n \in \mathcal{P}(X). \]
   \vfill
 
   Esistono due tipi principali di richieste su $S_i \cap S_j$:
@@ -549,7 +548,7 @@ Relatore: & Prof. Roberto Grossi
     Consideriamo un oracolo che preprocessa $S_1,...,S_n$ e risponde
     alla domanda ``$S_i$ interseca $S_j$?''. Sia $\abs{X} = \log _c n$
     per $c$ sufficientemente grande. Allora tale oracolo deve occupare
-    $\tilde \Omega (n^2)$ memoria.
+    $\tilde \Omega (n^2)$~ bit.
   \end{mycon}
   \vfill 
   
@@ -561,7 +560,7 @@ Relatore: & Prof. Roberto Grossi
 \begin{frame}{Riduzione da intersezioni a cammini}
   Costruiamo un grafo bipartito $G = (V,E)$ nel seguente modo:
   \[ V = X \cup \set{ S_1, ... ,S_n} \;\; E = \set{ ( S_i, x) \mid x
-    \in S_i } \] \vfill
+    \in S_i }. \] \vfill
   
   Vediamo che, se $S_i \cap S_j \neq \emptyset$, si ha che i cammini
   minimi tra $S_i$ e $S_j$ sono tutti e soli i:
@@ -577,7 +576,7 @@ Relatore: & Prof. Roberto Grossi
   \end{itemize}
   
   Per $\abs{X}$ piccolo ($\abs{X} = \log _c (n)$) abbiamo costruito un
-  oracolo per intersezioni in $O\pa{nm\log n}$ bit
+  oracolo per intersezioni in $O\pa{nm\log n}$ bit..
 
   Attuale lower bound: $\tilde \Omega\pa{n^2}$ bit! \vfill
   \pause
