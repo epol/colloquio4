@@ -195,6 +195,24 @@ Relatore: & Prof. Roberto Grossi
   \end{columns}
 \end{frame}
 
+\begin{frame}{Problemi di distanze e cammini}
+  \begin{itemize}
+  \item Distanze:
+    \begin{itemize}
+    \item distanze da un nodo;
+    \item distanze tra ogni coppia;
+    \item distanze approssimate;
+    \end{itemize}
+  \item Cammini:
+    \begin{itemize}
+    \item un cammino minimo per ogni coppia;
+    \item i $k$ cammini pi\`u brevi per ogni coppia;
+    \item \textbf{tutti i cammini minimi per ogni coppia};
+    \item cammini minimi approssimati.
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
 \begin{frame}{Ipotesi di lavoro}
   Noi useremo le seguenti ipotesi:
   \begin{itemize}
@@ -217,12 +235,7 @@ Relatore: & Prof. Roberto Grossi
 
 \begin{frame}{Grafo (aciclico diretto) dei cammini minimi}
   Scegliamo $s,t\in V$ e consideriamo tutti i cammini minimi fra
-  loro.
-
-  Consideriamo il grafo $G_{st}$ ottenuto considerando tutti i vertici
-  e gli archi (orientati secondo il verso di percorrenza) che
-  compaiono in tali cammini
-
+  loro e costruiamo il grafo $G_{st}$ con tutti questi cammini.
 
     \begin{overprint}
       \onslide<1>
@@ -261,8 +274,7 @@ Relatore: & Prof. Roberto Grossi
     \end{column}
     \begin{column}{0.58\textwidth}
       Fissata una sorgente $s$ possiamo effettuare una visita in
-      ampiezza otteniamo il DAG dei cammini minimi in $O\pa{M}$
-      operazioni.
+      ampiezza otteniamo il DAG dei cammini minimi.
 
       Da questo estraiamo $G_{st}$ al variare di $t$.
     \end{column}
@@ -270,22 +282,19 @@ Relatore: & Prof. Roberto Grossi
 \end{frame}
 
 \begin{frame}{Costruzione dei cammini minimi}
-  Definiamo, in modo induttivo, un modo per costruire i cammini minimi
-  tra due nodi $s,t$ 
+  Costruiamo i cammini minimi per induzione sulla distanza.
   \vfill
-
-  Se $\delta(s,t) =0$ allora $s=t$ e c'\`e
-  solo il cammino $(s)$.
-  \vfill
+  \begin{itemize}
+    \item $\delta (s,t) =0 \Rightarrow s=t$ e c'\`e solo il cammino
+    $(s)$.  \vfill
   
-  Supponiamo di saper costruire tutti i cammini minimi tra $s$ e $u$
+  \item Supponiamo di saper costruire tutti i cammini minimi tra $s$ e $u$
   con $\delta(s,u) = k-1$ e sia $t\in V$ tale che $\delta(s,t) =k$.
   
-  Sia $P_{st}$ l'insieme dei vicini di $t$ che compaiono in $G_{st}$,
-  allora tutti e soli i cammini minimi da $s$ a $t$ sono dati dai
-  cammini (di lunghezza $k-1$) da $s$ a $u\in P_{st}$ allungati con
-  $(t)$.  \vfill \pause
-
+  Sia $P_{st} = \neigh (t) \cap V_{st}$, allora tutti e soli i cammini
+  minimi da $s$ a $t$ sono dati dai cammini (di lunghezza $k-1$) da
+  $s$ a $u\in P_{st}$ allungati con $(t)$.  \vfill \pause
+  \end{itemize}
   \begin{block}{}
     $u \in P_{st} \Leftrightarrow u \in \neigh (t) \wedge \delta(s,u) =
     k-1$.
@@ -313,12 +322,12 @@ Relatore: & Prof. Roberto Grossi
   \item Esistono $2 ^\wedge \binom{ N}{2}$ grafi indiretti non pesati
     con $N$ nodi;
   \item esiste una corrispondenza biunivoca tra grafi e matrici
-    distanza
+    distanza.
   \end{itemize}
   \pause \vfill
 
   Un oracolo deve saper distinguere tra $2 ^\wedge {\binom{ N}{2}}$
-  casi \pause
+  casi.
   \begin{block}{\textit{Lower bound}}
     Un oracolo per distanze deve utilizzare almeno $N^2 / 2 + o(N^2)$
     bit
