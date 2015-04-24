@@ -195,6 +195,20 @@ Relatore: & Prof. Roberto Grossi
   \end{columns}
 \end{frame}
 
+\begin{frame}{Numero di cammini minimi}
+  Dati due vertici il numero di cammini minimi tra i due potrebbe
+  essere anche esponenziale
+  \vfill
+
+  \begin{overprint}
+    \onslide<1>  \includegraphics[width=\textwidth]{catena0}
+    \onslide<2>  \includegraphics[width=\textwidth]{catena1}
+    \onslide<3>  \includegraphics[width=\textwidth]{catena2}
+    \onslide<4>  \includegraphics[width=\textwidth]{catena3}
+  \end{overprint}
+\end{frame}
+
+
 \begin{frame}{Ipotesi di lavoro}
   Noi useremo le seguenti ipotesi:
   \begin{itemize}
@@ -292,19 +306,6 @@ Relatore: & Prof. Roberto Grossi
   \end{block}
 \end{frame}
 
-
-\begin{frame}{Numero di cammini minimi}
-  Dati due vertici il numero di cammini minimi tra i due potrebbe
-  essere anche esponenziale
-  \vfill
-
-  \begin{overprint}
-    \onslide<1>  \includegraphics[width=\textwidth]{catena0}
-    \onslide<2>  \includegraphics[width=\textwidth]{catena1}
-    \onslide<3>  \includegraphics[width=\textwidth]{catena2}
-    \onslide<4>  \includegraphics[width=\textwidth]{catena3}
-  \end{overprint}
-\end{frame}
 
 \subsection{Oracoli per distanze esatti}
 
@@ -513,7 +514,7 @@ Relatore: & Prof. Roberto Grossi
   insiemi vengono implementati con tabelle hash.  \vfill
 
   Lo spazio utilizzato \`e lo spazio utilizzato per salvare gli
-  insiemi $P_{st}$ che sappiamo essere $O(NM\log N)$.
+  insiemi $P_{st}$ che sappiamo essere $O(NM\log N)$ bit.
 \end{frame}
 
 
