@@ -1,0 +1,19 @@
+[file]
+slide.pdf
+[duration]
+35
+[skip]
+5,7,8,11,12,13,17,18,19,22,24,25,30,32,35,43,53,58,59,
+[notes]
+### 5
+cammini minimi: quelli che realizzano il min
+### 6
+Perché vogliamo minimizzare lo spazio?
+### 12
+induzione sulla distanza
+### 13
+lo stesso lower bound lo riportiamo ai cammini
+### 14
+lo stesso limite si ha per gli oracoli per cammini minimi
+### 29
+la parte critica è Q \cup P_{sp}
