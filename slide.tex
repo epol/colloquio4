@@ -315,6 +315,24 @@ Relatore: & Prof. Roberto Grossi
   \end{block}
 \end{frame}
 
+\begin{frame}{Cammini o grafo dei cammini?}
+  Esistono due modi per restituire i cammini minimi:
+  \begin{itemize}
+  \item (esplicito) ritornando la lista di tutti i cammini minimi;
+  \item (implicito) ritornando il grafo $G_{st}$ dei cammini minimi.
+  \end{itemize}
+  
+%  L'oracolo implicito ha un output più piccolo.
+
+%  Dall'output dell'oracolo implicito si può costruire l'output
+%  dell'esplicito.
+  \vfill \pause
+  
+  \begin{myoss}
+    \`E pi\`u difficile costruire un oracolo implicito.
+  \end{myoss}
+\end{frame}
+
 
 \subsection{Oracoli per distanze esatti}
 
@@ -381,27 +399,9 @@ Relatore: & Prof. Roberto Grossi
   \includegraphics[width=\textwidth]{millepiedi}
 \end{frame}
 
-\subsection{Oracolo per cammini}
+\subsection{Riduzione a oracoli per pochi cammini}
 
-\begin{frame}{Cammini o grafo dei cammini?}
-  Esistono due modi per restituire i cammini minimi:
-  \begin{itemize}
-  \item (esplicito) ritornando la lista di tutti i cammini minimi;
-  \item (implicito) ritornando il grafo $G_{st}$ dei cammini minimi.
-  \end{itemize}
-  
-%  L'oracolo implicito ha un output più piccolo.
-
-%  Dall'output dell'oracolo implicito si può costruire l'output
-%  dell'esplicito.
-  \vfill \pause
-  
-  \begin{myoss}
-    \`E pi\`u difficile costruire un oracolo implicito.
-  \end{myoss}
-\end{frame}
-
-\begin{frame}{Riduzione ad oracoli piccoli}
+\begin{frame}{Condizione per il calcolo di $P_{st}$}
  \[ P_{st} = \set{ u \in \neigh(t) \mid \delta\pa{s,t} =
    \delta\pa{s,u} + 1 }. \]
 
@@ -450,10 +450,10 @@ Relatore: & Prof. Roberto Grossi
     \State {C(s,t) := $\emptyset$}
     \For {u $\in$ P}
     \Comment {Costruisci i cammini}
-    \State {C(s,t) := C(s,t) $\cup$ (s,...,u,t) $\mid$ (s,...,u) $\in$
+    \State {mpath(s,t) := mpath(s,t) $\cup$ (s,...,u,t) $\mid$ (s,...,u) $\in$
       C(s,u) }
     \EndFor
-    \Return {C(s,t)}
+    \Return {mpath(s,t)}
     \EndIf
   \end{algorithmic}
 \end{frame}
@@ -487,8 +487,8 @@ Relatore: & Prof. Roberto Grossi
     \cup \set{ t} , \set{ (u,t) \mid u \in P_{st} } }. \]
   \pause
 
-  Non \`e un oracolo: $G_{su}$ e $G_{sv}$ ($u\neq v$) potrebbe essere
-  molto simili!
+  Non \`e un oracolo: $G_{su}$ e $G_{sv}$ ($u\neq v$) potrebbero avere
+  un sottografo comunu non trascurabile!
 \end{frame}
 
 \begin{frame}{Esempio}
